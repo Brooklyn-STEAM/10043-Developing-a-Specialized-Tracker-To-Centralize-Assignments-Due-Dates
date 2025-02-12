@@ -53,3 +53,15 @@ def connectdb():
 @app.route("/")
 def index ():
     return render_template("homepage.html.jinja")
+
+
+
+@app.route("/cta")
+def index ():
+    return render_template("calltoaction.html.jinja")
+
+
+
+@app.route("/")
+def index ():
+    return render_template("signin.html.jinja")
