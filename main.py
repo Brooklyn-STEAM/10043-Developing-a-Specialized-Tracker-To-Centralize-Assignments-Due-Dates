@@ -56,12 +56,18 @@ def index ():
 
 
 
-@app.route("/cta")
-def index ():
-    return render_template("calltoaction.html.jinja")
-
-
-
-@app.route("/")
-def index ():
+@app.route("/signin")
+def sin ():
     return render_template("signin.html.jinja")
+
+
+
+@app.route("/signup")
+def sup ():
+    return render_template("signup.html.jinja")
+
+
+
+@app.route("/main")
+def main ():
+    return render_template("mainpage.html.jinja")
