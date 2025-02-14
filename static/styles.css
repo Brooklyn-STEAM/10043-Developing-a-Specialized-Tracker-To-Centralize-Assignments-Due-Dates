@@ -1,0 +1,28 @@
+#bg-cstm-prpl{
+background-color: #7E5CDC;
+}
+#bg-cstm-red{
+    background-color: #d45974;
+}
+#btn-cstm-prpl{
+    color: #9c0000;
+    background-color: #7E5CDC;   
+}
+:hover.btn-cstm-prpl{
+    background-color: #a186e9;
+    text-decoration: underline;
+    color: #c14141;
+}
+#txt-cstm-prpl{
+    color: #7E5CDC;
+}
+#btn-cstm-red{
+    background-color: #d45974;
+    color: azure;
+}
+:hover.btn-cstm-red{
+    background-color: #e6859a;
+}
+#txt-cstm-red{
+    color: #d45974;
+}
