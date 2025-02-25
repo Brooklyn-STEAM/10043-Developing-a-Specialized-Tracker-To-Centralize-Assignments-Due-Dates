@@ -64,7 +64,40 @@ def sin ():
 
 @app.route("/signup")
 def sup ():
-    return render_template("signup.html.jinja")
+    if flask_login.current_user.is_authenticated:
+        return redirect ("/")
+    else:
+        if request.method == "POST":
+            first_name = request.form["fname"]
+            last_name = request.form["lname"]
+            username = request.form["username"]
+            password = request.form["pass"]
+            confirmpassword = request.form["confirmpass"]
+            email = request.form["email"]
+            address = request.form["address"]
+            conn = connectdb()
+            cursor = conn.cursor()
+            if len(password) < 8:
+                flash("Password contains less than 8 characters")
+            if confirmpassword != password:
+                flash("The passwords don't match")
+            else:
+                try:
+                    cursor.execute(f"""
+                    INSERT INTO `Customer` 
+                        (`first_name`, `last_name`, `username`, `password`, `email`, `address`)
+                    VALUE
+                        ('{first_name}', '{last_name}', '{username}', '{password}', '{email}', '{address}');
+                    """)
+                except pymysql.err.IntegrityError:
+                    flash("Username/Email is already in use")
+                else:    
+                    return redirect("/signin") 
+                finally:
+                    cursor.close()
+                    conn.close()
+
+        return render_template("signup.html.jinja")
 
 
 
