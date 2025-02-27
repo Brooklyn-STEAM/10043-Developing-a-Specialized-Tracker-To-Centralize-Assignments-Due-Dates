@@ -8,9 +8,199 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link href="/static/styles.css" rel="stylesheet">
+
+
 </head>
 
 <body>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css"
+    rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   {% include "components/navbar.html.jinja" %}
+  <script>
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    chooseddate = "";
+    const monthShortNames = months.map((month) => month.substring(0, 3));
+    const calendarContainer = $("#calendar-container");
+    const yearDropdown = $("#yearDropdown");
+    const monthDropdown = $("#monthDropdown");
+
+    function isTodayOrFuture(year, month, day) {
+      const today = new Date();
+      const dateToCheck = new Date(year, month, day);
+      return dateToCheck >= today;
+    }
+    const currentYear = new Date().getFullYear();
+    const currentMonth = new Date().getMonth();
+    const currentDay = new Date().getDate();
+
+    function updateMonthDropdownOptions(selectedYear) {
+      const monthDropdown = $("#monthDropdown");
+      monthDropdown.empty();
+
+      for (let month = 0; month < 12; month++) {
+        const daysInMonth = new Date(selectedYear, month + 1, 0).getDate();
+        if (
+          daysInMonth >= new Date().getDate() ||
+          selectedYear > currentYear
+        ) {
+          const option = $("<option>").val(month).text(months[month]);
+          monthDropdown.append(option);
+        }
+      }
+      const defaultMonth =
+        currentMonth < new Date(selectedYear, 0).getMonth()
+          ? currentMonth
+          : 0;
+      monthDropdown.val(defaultMonth);
+    }
+
+    function updateCalendar(year, month) {
+      calendarContainer.owlCarousel("destroy");
+      calendarContainer.empty();
+      calendarContainer.owlCarousel({
+        loop: false,
+        nav: true,
+        navText: [
+          "<i class="fa-solid fa-chevron-left fa-fw"></i>",
+          "<i class="fa-solid fa-chevron-right fa-fw"></i>",
+        ],
+        margin: 10,
+        responsive: {
+          0: {
+            items: 1,
+          },
+          600: {
+            items: 3,
+          },
+          1000: {
+            items: 6,
+          },
+        },
+        lazyLoad: true,
+      });
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateString = `${year}-${(month + 1)
+          .toString()
+          .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
+
+        if (
+          isTodayOrFuture(year, month, day) ||
+          (year === currentYear &&
+            month === currentMonth &&
+            day === currentDay)
+        ) {
+          const dayCard = $("<div>")
+            .addClass("day-card card rounded")
+            .html(
+              "<p class='fw-bold'>" +
+              getDayOfWeek(year, month, day) +
+              "</p>" +
+              "<h3>" +
+              day +
+              "</h3>" +
+              "<p>" +
+              monthShortNames[month] +
+              "</p>"
+            )
+            .css("cursor", "pointer")
+            .data("date", dateString);
+
+          dayCard.on("click", function () {
+            calendarContainer
+              .find(".day-card")
+              .removeClass("border-success selectedcard");
+            const clickedDate = $(this).data("date");
+            console.log("Clicked on", clickedDate);
+            chooseddate = clickedDate;
+            $(this).addClass("border-success selectedcard");
+          });
+          calendarContainer.trigger("add.owl.carousel", [dayCard]);
+        }
+      }
+      calendarContainer.trigger("refresh.owl.carousel");
+    }
+    yearDropdown.val(currentYear);
+    updateMonthDropdownOptions(currentYear);
+    updateCalendar(currentYear, currentMonth);
+
+    yearDropdown.on("change", function () {
+      const selectedYear = parseInt($(this).val(), 10);
+      const selectedMonth = parseInt(monthDropdown.val(), 10);
+      updateMonthDropdownOptions(selectedYear);
+      updateCalendar(selectedYear, selectedMonth);
+    });
+
+    monthDropdown.on("change", function () {
+      const selectedMonth = parseInt($(this).val(), 10);
+      const selectedYear = parseInt(yearDropdown.val(), 10);
+      updateCalendar(selectedYear, selectedMonth);
+    });
+
+    function getDayOfWeek(year, month, day) {
+      const date = new Date(year, month, day);
+      const daysOfWeek = [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday",
+      ];
+      return daysOfWeek[date.getDay()];
+    }
+  </script>
+
+  <div class="row w-100 m-auto mb-1 text-center">
+    <div class="col-md-4 mb-2">
+      <select class="form-control" id="yearDropdown">
+        <option value="">Select Year</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025" selected>2025</option>
+      </select>
+    </div>
+    <div class="col-md-4 mb-2">
+      <select class="form-control" id="monthDropdown">
+        <option value="0">January</option>
+        <option value="1">February</option>
+        <option value="2">March</option>
+        <option value="3">April</option>
+        <option value="4">May</option>
+        <option value="5">June</option>
+        <option value="6">July</option>
+        <option value="7">August</option>
+        <option value="8">September</option>
+        <option value="9">October</option>
+        <option value="10">November</option>
+        <option value="11">December</option>
+      </select>
+    </div>
+    <div class="col-md-12 mt-1">
+      <div class="owl-carousel" id="calendar-container"></div>
+    </div>
 </body>
+
 </html>
