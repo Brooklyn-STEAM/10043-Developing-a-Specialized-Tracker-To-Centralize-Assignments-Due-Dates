@@ -122,11 +122,11 @@ def sup ():
 @app.route("/logout")
 def logout():
     flask_login.logout_user()
-    return redirect("/")
+    return redirect("/signin")
 
 
 
 
-@app.route("/")
+@app.route("/main")
 def main ():
     return render_template("mainpage.html.jinja")
