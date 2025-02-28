@@ -32,7 +32,7 @@ class User:
 def load_user(user_id):
     conn = connectdb()
     cursor = conn.cursor()
-    cursor.execute(f"SELECT * FROM `Customer` WHERE `id` = {user_id};")
+    cursor.execute(f"SELECT * FROM `User` WHERE `id` = {user_id};")
     result = cursor.fetchone()
     cursor.close()
     conn.close()
@@ -41,8 +41,8 @@ def load_user(user_id):
     
 def connectdb():
     conn = pymysql.connect(
-        host = "https://db.steamcenter.tech/index.php?route=/&db=plot_point&table=User",
-        database = "",
+        host = "db.steamcenter.tech",
+        database = "plot_point",
         user = conf.username,
         password = conf.password,
         autocommit = True,
@@ -50,19 +50,39 @@ def connectdb():
     )
     return conn
 
-@app.route("/")
+@app.route("/cta")
 def index ():
     return render_template("homepage.html.jinja")
 
 
 
-@app.route("/signin")
+@app.route("/signin", methods=["POST","GET"])
 def sin ():
+    if flask_login.current_user.is_authenticated:
+        return redirect ("/")
+    else:
+        if request.method == "POST":
+            username = request.form["username"].strip()
+            password = request.form["pass"]
+            conn = connectdb()
+            cursor = conn.cursor()
+            cursor.execute(f"SELECT * FROM `User` WHERE `username` = '{username}' OR `email` = '{username}';")
+            result = cursor.fetchone()
+            if result is None:
+                flash("Your Username/Password is incorrect")
+            elif password != result["password"]:
+                flash("Your Username/Password is incorrect")
+            else:
+                user = User(result["id"], result["username"], result["email"], result["first_name"], result["last_name"])
+                flask_login.login_user(user)
+                cursor.close()
+                conn.close()
+                return redirect("/")
     return render_template("signin.html.jinja")
 
 
 
-@app.route("/signup")
+@app.route("/signup", methods=["POST", "GET"])
 def sup ():
     if flask_login.current_user.is_authenticated:
         return redirect ("/")
@@ -74,7 +94,6 @@ def sup ():
             password = request.form["pass"]
             confirmpassword = request.form["confirmpass"]
             email = request.form["email"]
-            address = request.form["address"]
             conn = connectdb()
             cursor = conn.cursor()
             if len(password) < 8:
@@ -84,10 +103,10 @@ def sup ():
             else:
                 try:
                     cursor.execute(f"""
-                    INSERT INTO `Customer` 
-                        (`first_name`, `last_name`, `username`, `password`, `email`, `address`)
+                    INSERT INTO `User` 
+                        (`first_name`, `last_name`, `username`, `password`, `email`)
                     VALUE
-                        ('{first_name}', '{last_name}', '{username}', '{password}', '{email}', '{address}');
+                        ('{first_name}', '{last_name}', '{username}', '{password}', '{email}');
                     """)
                 except pymysql.err.IntegrityError:
                     flash("Username/Email is already in use")
@@ -108,6 +127,6 @@ def logout():
 
 
 
-@app.route("/main")
+@app.route("/")
 def main ():
     return render_template("mainpage.html.jinja")
