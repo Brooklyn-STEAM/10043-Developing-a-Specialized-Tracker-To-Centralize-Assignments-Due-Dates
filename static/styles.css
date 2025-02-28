@@ -1,10 +1,10 @@
-#bg-cstm-prpl{
+.bg-cstm-prpl{
 background-color: #7E5CDC;
 }
-#bg-cstm-red{
+.bg-cstm-red{
     background-color: #d45974;
 }
-#btn-cstm-prpl{
+.btn-cstm-prpl{
     color: #9c0000;
     background-color: #7E5CDC;   
 }
@@ -13,16 +13,47 @@ background-color: #7E5CDC;
     text-decoration: underline;
     color: #c14141;
 }
-#txt-cstm-prpl{
+.txt-cstm-prpl{
     color: #7E5CDC;
 }
-#btn-cstm-red{
+.btn-cstm-red{
     background-color: #d45974;
     color: azure;
 }
 :hover.btn-cstm-red{
     background-color: #e6859a;
 }
-#txt-cstm-red{
+.txt-cstm-red{
     color: #d45974;
 }
+.custom_container {  display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: 79px 0.9fr 2.5fr 0.6fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas:
+      "navbar"
+      "content"
+      "content"
+      "footer";
+  }
+  
+.navbar { grid-area: navbar; }
+  
+.content {  display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: 0.8fr 2.7fr;
+    gap: 0px 0px;
+    grid-auto-flow: row;
+    grid-template-areas: 
+    "horizontal calendar horizontal calendar horizontal calendar horizontal calendar horizontal calendar horizontal calendar horizontal calendar"
+    "assignment assignment assignment assignment assignment assignment assignment"; 
+  grid-area: content; 
+}
+.horizontal calendar { grid-area: horizontal calendar; }
+  
+.assignment { grid-area: assignment; }
+  
+.footer { grid-area: footer; }
+  
+  
