@@ -9,7 +9,7 @@
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link href="/static/styles.css" rel="stylesheet">
 </head>
-  <body>
+  <body class="bg-cstm-red">
     {% include "components/navbar.html.jinja" %}
     
     <main class="container form-signin w-100 m-auto text-center">
@@ -40,10 +40,10 @@
                 </div>
             </div>
             <br>
-            <button class="btn btn-primary w-50 py-2" type="submit">Sign in</button>
+            <button class="btn btn-cstm-prpl w-50 py-2" type="submit">Sign in</button>
 
         </form>
-        <a href="/signup">If you don't have an account click here to create one</a>
+        <a class="txt-cstm-prpl" href="/signup">If you don't have an account click here to create one</a>
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </body>

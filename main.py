@@ -127,6 +127,6 @@ def logout():
 
 
 
-@app.route("/main")
+@app.route("/")
 def main ():
     return render_template("mainpage.html.jinja")
