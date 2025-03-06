@@ -41,6 +41,7 @@ const months = [
         ? currentMonth
         : 0;
     monthDropdown.val(currentMonth);
+
   }
 
   function updateCalendar(year, month) {
@@ -74,6 +75,7 @@ const months = [
         .toString()
         .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
       
+
         const dayCard = $("<div>")
           .addClass("day-card card rounded")
           .html(
@@ -100,7 +102,7 @@ const months = [
             $(this).addClass("border-success selectedcard");
         });
         calendarContainer.trigger("add.owl.carousel", [dayCard]);
-      
+
     }
     calendarContainer.trigger("refresh.owl.carousel");
   }
