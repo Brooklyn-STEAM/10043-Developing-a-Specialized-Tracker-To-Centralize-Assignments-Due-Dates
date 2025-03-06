@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, flash, abort
 import flask_login
 import pymysql
 from dynaconf import Dynaconf
+from datetime import date
 
 app = Flask(__name__)
 
@@ -122,4 +123,6 @@ def sup ():
 
 @app.route("/")
 def main ():
-    return render_template("mainpage.html.jinja")
+    date.today().year
+    year = range (date.today().year, date.today().year +3)
+    return render_template("mainpage.html.jinja", year = year)

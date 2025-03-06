@@ -18,11 +18,6 @@ const months = [
   const yearDropdown = $("#yearDropdown");
   const monthDropdown = $("#monthDropdown");
 
-  function isTodayOrFuture(year, month, day) {
-    const today = new Date();
-    const dateToCheck = new Date(year, month, day);
-    return dateToCheck >= today;
-  }
   const currentYear = new Date().getFullYear();
   const currentMonth = new Date().getMonth();
   const currentDay = new Date().getDate();
@@ -45,7 +40,7 @@ const months = [
       currentMonth < new Date(selectedYear, 0).getMonth()
         ? currentMonth
         : 0;
-    monthDropdown.val(defaultMonth);
+    monthDropdown.val(currentMonth);
   }
 
   function updateCalendar(year, month) {
@@ -72,18 +67,13 @@ const months = [
       },
       lazyLoad: true,
     });
+
     const daysInMonth = new Date(year, month + 1, 0).getDate();
     for (let day = 1; day <= daysInMonth; day++) {
       const dateString = `${year}-${(month + 1)
         .toString()
         .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
       
-      if (
-        isTodayOrFuture(year, month, day) ||
-        (year === currentYear &&
-          month === currentMonth &&
-          day === currentDay)
-      ) {
         const dayCard = $("<div>")
           .addClass("day-card card rounded")
           .html(
@@ -110,7 +100,7 @@ const months = [
             $(this).addClass("border-success selectedcard");
         });
         calendarContainer.trigger("add.owl.carousel", [dayCard]);
-      }
+      
     }
     calendarContainer.trigger("refresh.owl.carousel");
   }
