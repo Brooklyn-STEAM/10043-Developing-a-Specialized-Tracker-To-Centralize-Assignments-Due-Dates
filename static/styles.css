@@ -26,6 +26,15 @@ background-color: #7E5CDC;
 .txt-cstm-red{
     color: #d45974;
 }
+.btn-cstm-meow{
+    color: #a91919;
+    background-color: #663adf;   
+}
+:hover.btn-cstm-meow{
+    background-color: #a186e9;
+    text-decoration: underline;
+    color: #c14141;
+}
 .custom_container {  display: grid;
     grid-template-columns: auto;
     grid-template-rows: 79px 0.9fr 2.5fr 0.6fr;

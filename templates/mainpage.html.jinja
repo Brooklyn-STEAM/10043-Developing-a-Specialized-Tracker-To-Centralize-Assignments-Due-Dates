@@ -16,11 +16,11 @@
 
 </head>
 
-<body>
+<body class="bg-cstm-red">
   {% include "components/navbar.html.jinja" %}
   <div class="row w-100 m-auto mb-1 text-center">
       <div class="col-md-4 mb-2">
-        <select class="form-control" id="yearDropdown">
+        <select class="form-control btn-cstm-meow" id="yearDropdown">
           <option value="">Select Year</option>
  10043-33-Revise-Horizontal-Calendar-for-Mainpage
           <option value="2025" selected>2025</option>
@@ -30,7 +30,7 @@
         </select>
       </div>
       <div class="col-md-4 mb-2">
-        <select class="form-control" id="monthDropdown">
+        <select class="form-control btn-cstm-meow" id="monthDropdown">
           <option value="0">January</option>
           <option value="1">February</option>
           <option value="2">March</option>
@@ -46,7 +46,7 @@
         </select>
       </div>
       <div class="col-md-12 mt-1">
-        <div class="owl-carousel" id="calendar-container"></div>
+        <div class="owl-carousel btn btn-cstm-prpl" id="calendar-container"></div>
       </div>
     </div>
     <script src="/static/main.js"></script>
