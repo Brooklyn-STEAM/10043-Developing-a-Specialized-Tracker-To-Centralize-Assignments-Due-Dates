@@ -133,3 +133,17 @@ def main ():
     date.today().year
     year = range (date.today().year, date.today().year +3)
     return render_template("mainpage.html.jinja", year = year)
+
+@app.route("/acc")
+@flask_login.login_remembered
+def accounts():
+    conn = connectdb()
+    cursor = conn.cursor()
+    user_id = flask_login.current_user.id
+    cursor.execute(f"""SELECT `username`,`email`,`first_name`,`last_name` 
+    FROM `User` JOIN `Product` ON `product_id` = `Product`.`id`
+    WHERE `user_id` = {user_id};""")
+    result = cursor.fetchall()
+    cursor.close()
+    conn.close()
+    return render_template("account.html.jinja", account = result)
