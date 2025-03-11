@@ -144,29 +144,34 @@ const months = [
     ];
     return daysOfWeek[date.getDay()];
   }
-var seconds = document.getElementById("se").value;
+function timeEarnings(y = 0, m = 0, h = 0, d = 0, w = 0, mo = 0) {
+  var a = 1 * y;
+  var b = 2 * m;
+  var c = 3 * h;
+  var d = 4 * d;
+  var e = 5 * w;
+  var f = 6 * mo;
+  var total = (a + b + c + d + e + f);
+  return total.toLocaleString();
+}
+
+function calcuLatte() {
+
+var Years = document.getElementById("se").value;
 var Minutes = document.getElementById("mi").value;
 var Hours = document.getElementById("ho").value;
-var Weeks = document.getElementById("we").value;
-var Days = document.getElementById("da").value;
+var Weeks = document.getElementById("da").value;
+var Days = document.getElementById("we").value;
 var Months = document.getElementById("mo").value;
 
 var newActivity = document.getElementById("activity").value;
-var idArray = [seconds, Minutes, Hours, Weeks, Days, Months];
+var idArray = [Years, Minutes, Hours, Weeks, Days, Months];
 
-function bezosEarnings(s = 0, m = 0, h = 0, d = 0, w = 0, mo = 0) {
-  var a = 1 * s;
-  var b = 60 * m;
-  var c = 3600 * h;
-  var d = 86400 * d;
-  var e = 604800 * w;
-  var f = 2419300 * mo;
-  var total = (a + b + c + d + e + f) * 2489;
-  return total.toLocaleString();
+var timeResult = timeEarnings(...idArray);
+var timeSentence = `While you were ${newActivity}, Jeff Bezos made $ ${timeResult}`;
+
+  console.log(timeSentence);
 }
-var bezosResult = bezosEarnings(...idArray);
-var returnSentence = `While you were ${newActivity}, Jeff Bezos made $ ${bezosResult}`;
-
-function calcuLatte() {
-  console.log(returnSentence);
+function myFunction() {
+  document.getElementById("myForm").submit();
 }
