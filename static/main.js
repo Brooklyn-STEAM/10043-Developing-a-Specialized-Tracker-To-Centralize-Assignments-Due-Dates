@@ -136,3 +136,34 @@ const months = [
     ];
     return daysOfWeek[date.getDay()];
   }
+  function timeEarnings(y = 0, m = 0, h = 0, d = 0, w = 0, mo = 0) {
+    var a = 1 * y;
+    var b = 2 * m;
+    var c = 3 * h;
+    var d = 4 * d;
+    var e = 5 * w;
+    var f = 6 * mo;
+    var total = (a + b + c + d + e + f);
+    return total.toLocaleString();
+  }
+  
+  function calcuLatte() {
+  
+  var Years = document.getElementById("se").value;
+  var Minutes = document.getElementById("mi").value;
+  var Hours = document.getElementById("ho").value;
+  var Weeks = document.getElementById("da").value;
+  var Days = document.getElementById("we").value;
+  var Months = document.getElementById("mo").value;
+  
+  var newActivity = document.getElementById("activity").value;
+  var idArray = [Years, Minutes, Hours, Weeks, Days, Months];
+  
+  var timeResult = timeEarnings(...idArray);
+  var timeSentence = `While you were ${newActivity}, Jeff Bezos made $ ${timeResult}`;
+  
+    console.log(timeSentence);
+  }
+  function myFunction() {
+    document.getElementById("myForm").submit();
+  }
