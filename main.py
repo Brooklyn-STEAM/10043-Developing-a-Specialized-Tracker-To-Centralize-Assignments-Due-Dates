@@ -133,3 +133,26 @@ def main ():
     date.today().year
     year = range (date.today().year, date.today().year +3)
     return render_template("mainpage.html.jinja", year = year)
+
+@app.route("/", methods=["POST", "GET"])
+def assignment():
+    request.method == "POST"
+    Name = request.form["name"]
+    Years = request.form["years"]
+    Minutes = request.form["minutes"]
+    Hours = request.form["hours"]
+    Weeks = request.form["weeks"]
+    Days = request.form["days"]
+    Months = request.form["months"]
+    conn = connectdb()
+    cursor = conn.cursor() 
+    cursor.execute(f"""
+                    INSERT INTO `Time` 
+                        (`years`, `minutes`, `hours`, `weeks`, `days`, `months`, `name`)
+                    VALUE
+                        ({Years}, {Minutes}, {Hours}, {Weeks}, {Days}, {Months}, '{Name}');
+                    """)
+    result = cursor.fetchall()
+    conn.close()
+    cursor.close()
+    return render_template("mainpage.html.jinja", result = result)
