@@ -20,7 +20,7 @@
 
 </head>
 
-<body>
+<body class="bg-cstm-green">
   {% include "components/navbar.html.jinja" %}
   <div class="row w-100 mx-auto mb-1 text-center">
     <div class="d-flex justify-content-center">
@@ -29,7 +29,7 @@
         {% for years in year %}
           <option value="{{years}}" selected>{{years}}</option>
 
-        {% endfor %}}}
+        {% endfor %}
           
         </select>
       </div>
