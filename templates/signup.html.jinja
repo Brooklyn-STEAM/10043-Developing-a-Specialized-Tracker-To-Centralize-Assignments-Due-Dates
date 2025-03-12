@@ -13,9 +13,11 @@
 <body class="bg-cstm-red">
     {% include "components/navbar.html.jinja" %}
     <main class="form-signin w-100 m-auto text-center">
-        <form action="/signup" method="post">
-            <img class="mb-4" src="/static/images/PlotPoint20.png" alt="" width="72">
-            <h1 class="h3 mb-3 fw-normal">Start Signing Up</h1>
+
+        <form>
+            <img class="mb-4" src="/static/images/bicker.png" alt="" width="72">
+                <h1 class="h3 mb-3 fw-normal">Start Signing Up</h1>
+
 
 
             <div class="row">
@@ -67,6 +69,8 @@
             <br>
             <div class="row justify-content-center">
             </div>
+            <br>
+            <a class="txt-cstm-prpl" href="/signin">Have an account? Click here to sign in</a>
             <br>
             <button class="btn btn-cstm-prpl w-50 py-2" type="submit">Sign Up</button>
         </form>
