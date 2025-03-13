@@ -133,3 +133,90 @@ def main ():
     date.today().year
     year = range (date.today().year, date.today().year +3)
     return render_template("mainpage.html.jinja", year = year)
+
+@app.route("/acc")
+def accounts():
+    if flask_login.current_user.is_authenticated:
+        conn = connectdb()
+        cursor = conn.cursor()
+        user_id = flask_login.current_user.id
+        cursor.execute(f"""SELECT `username`,`email`,`first_name`,`last_name` 
+        FROM `User` WHERE `id` = {user_id};""")
+        result = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        return render_template("account.html.jinja", account = result)
+    else:
+        return redirect ("/cta")
+    
+@app.route("/acc/updusername", methods = ["POST"])
+@flask_login.login_required
+def userupd_username():
+    user_id = flask_login.current_user.id
+    conn = connectdb()
+    cursor = conn.cursor()
+    username = request.form["username"]
+    cursor.execute(f"UPDATE `User` SET `username` = '{username}' WHERE `id` = {user_id};")
+    cursor.close()
+    conn.close()
+    return redirect("/acc")
+
+@app.route("/acc/updfname", methods = ["POST"])
+@flask_login.login_required
+def userupd_fname():
+    user_id = flask_login.current_user.id
+    conn = connectdb()
+    cursor = conn.cursor()
+    first_name = request.form["first_name"]
+    cursor.execute(f"UPDATE `User` SET `first_name` = '{first_name}' WHERE `id` = {user_id};")
+    cursor.close()
+    conn.close()
+    return redirect("/acc")
+
+@app.route("/acc/updlname", methods = ["POST"])
+@flask_login.login_required
+def userupd_lname():
+    user_id = flask_login.current_user.id
+    conn = connectdb()
+    cursor = conn.cursor()
+    last_name = request.form["last_name"]
+    cursor.execute(f"UPDATE `User` SET `last_name` = '{last_name}' WHERE `id` = {user_id};")
+    cursor.close()
+    conn.close()
+    return redirect("/acc")
+
+@app.route("/acc/updemail", methods = ["POST"])
+@flask_login.login_required
+def userupd_email():
+    user_id = flask_login.current_user.id
+    conn = connectdb()
+    cursor = conn.cursor()
+    email = request.form["email"]
+    cursor.execute(f"UPDATE `User` SET `email` = '{email}' WHERE `id` = {user_id};")
+    cursor.close()
+    conn.close()
+    return redirect("/acc")
+
+@app.route("/", methods=["POST", "GET"])
+def assignment():
+    request.method == "POST"
+    Name = request.form["name"]
+    Years = request.form["years"]
+    Minutes = request.form["minutes"]
+    Hours = request.form["hours"]
+    Weeks = request.form["weeks"]
+    Days = request.form["days"]
+    Months = request.form["months"]
+    conn = connectdb()
+    cursor = conn.cursor() 
+    cursor.execute(f"""
+                    INSERT INTO `Time` 
+                        (`years`, `minutes`, `hours`, `weeks`, `days`, `months`, `name`)
+                    VALUE
+                        ({Years}, {Minutes}, {Hours}, {Weeks}, {Days}, {Months}, '{Name}');
+                    """)
+    result = cursor.fetchall()
+    conn.close()
+    cursor.close()
+    return render_template("mainpage.html.jinja", result = result)
+
