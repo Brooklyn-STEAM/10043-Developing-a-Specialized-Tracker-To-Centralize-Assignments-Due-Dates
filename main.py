@@ -197,6 +197,46 @@ def userupd_email():
     conn.close()
     return redirect("/acc")
 
+@app.route("/acc/updpswd", methods = ["POST"])
+@flask_login.login_required
+def userupd_pswd():
+    user_id = flask_login.current_user.id
+    conn = connectdb()
+    cursor = conn.cursor()
+    password = request.form["password"]
+    confirm_password = request.form["confirm_password"]
+    if password == confirm_password:
+        cursor.execute(f"UPDATE `User` SET `password` = '{password}' WHERE `id` = {user_id};")
+        cursor.close()
+        conn.close()
+        return redirect("/signin")
+    else:
+        flash("The passwords don't match")
+        return redirect ("/acc")
+
+@app.route("/acc/signin", methods=["POST","GET"])
+def accsin ():
+
+    if request.method == "POST":
+        email = request.form["email"].strip()
+        password = request.form["pass"]
+        conn = connectdb()
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT * FROM `User` WHERE `email` = '{email}';")
+        result = cursor.fetchone()
+        if result is None:
+            flash("Your Username/Password is incorrect")
+            return redirect ("/acc/signin")
+        elif password != result["password"]:
+            flash("Your Username/Password is incorrect")
+            return redirect ()
+        else:
+            user = User(result["id"], result["username"], result["email"], result["first_name"], result["last_name"])
+            flask_login.login_user(user)
+            cursor.close()
+            conn.close()
+            return redirect("/acc")
+
 @app.route("/", methods=["POST", "GET"])
 def assignment():
     request.method == "POST"
