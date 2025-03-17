@@ -30,6 +30,20 @@ background-color: #CEFFFA;
     color: #a91919;
     background-color: #663adf;   
 }
+
+.green{
+    background-color: #CEFFFA;
+}
+
+
+
+
+
+
+
+
+
+
 :hover.btn-cstm-meow{
     background-color: #a186e9;
     text-decoration: underline;
