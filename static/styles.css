@@ -65,4 +65,37 @@ background-color: #CEFFFA;
   
 .footer { grid-area: footer; }
   
+@media screen and (max-width: 767px) {
+    .font-size-large {
+      font-size: 9vw;
+    }
+    .font-size-mid {
+        font-size: 6vw;
+    }
+    .font-size-small {
+        font-size: 3.7vw;
+    }
+  }
+  @media screen and (max-width: 1023px) and (min-width:768px) {
+    .font-size-large {
+      font-size: 7vw;
+    }
+    .font-size-mid {
+        font-size: 4vw;
+    }
+    .font-size-small {
+        font-size: 2.3vw;
+    }
+  }
+  @media screen and (min-width: 1023px) {
+    .font-size-large {
+      font-size: 6vw;
+    }
+    .font-size-mid {
+        font-size: 4vw;
+    }
+    .font-size-small {
+        font-size: 2vw;
+    }
+  }
   
