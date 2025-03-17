@@ -77,7 +77,7 @@ const months = [
       
 
         const dayCard = $("<div>")
-          .addClass("day-card card rounded")
+          .addClass("day-card card rounded btn-cstm-red")
           .html(
             "<p class='fw-bold'>" +
               getDayOfWeek(year, month, day) +

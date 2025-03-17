@@ -10,11 +10,11 @@
     <link href="/static/styles.css" rel="stylesheet">
 </head>
 
-<body class="bg-cstm-red">
+<body class="bg-cstm-green">
     {% include "components/navbar.html.jinja" %}
     <main class="form-signin w-100 m-auto text-center">
 
-        <form>
+        <form action="/signup" method="post">
             <img class="mb-4" src="/static/images/bicker.png" alt="" width="72">
                 <h1 class="h3 mb-3 fw-normal">Start Signing Up</h1>
 
@@ -70,9 +70,11 @@
             <div class="row justify-content-center">
             </div>
             <br>
-            <a class="txt-cstm-prpl" href="/signin">Have an account? Click here to sign in</a>
+
+            <a class="txt-cstm-red" href="/signin">Have an account? Click here to sign in</a>
             <br>
-            <button class="btn btn-cstm-prpl w-50 py-2" type="submit">Sign Up</button>
+            <button class="btn btn-cstm-red w-50 py-2" type="submit" href="/signin" >Sign Up</button>
+
         </form>
     </main>
     <script src="/docs/5.3/dist/js/bootstrap.bundle.min.js"
