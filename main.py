@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request, redirect, flash, abort
+from flask import Flask, render_template, request, redirect, flash, abort, jsonify
 import flask_login
 import pymysql
 from dynaconf import Dynaconf
-from datetime import date
+from datetime import date, datatime
 
 app = Flask(__name__)
 
@@ -14,6 +14,8 @@ app.secret_key = conf.secret_key
 
 login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
+
+
 
 class User:
     is_authenticated = True
@@ -134,8 +136,9 @@ def main ():
     year = range (date.today().year, date.today().year +3)
     return render_template("mainpage.html.jinja", year = year)
 
-@app.route("/", methods=["POST", "GET"])
-def assignment():
+@app.route("/", methods=["POST"])
+@flask_login.login_required
+def assignmentsend():
     request.method == "POST"
     User_id = flask_login.current_user.id
     Name = request.form["name"]
@@ -145,10 +148,11 @@ def assignment():
     Weeks = request.form["weeks"]
     Days = request.form["days"]
     Months = request.form["months"]
+    Data = datatime.datatime
     conn = connectdb()
     cursor = conn.cursor() 
     cursor.execute(f"""
-                    INSERT INTO `Time` 
+                    INSERT INTO `Assignment` 
                         (`years`, `minutes`, `hours`, `weeks`, `days`, `months`, `name`, `user_id`)
                     VALUE
                         ({Years}, {Minutes}, {Hours}, {Weeks}, {Days}, {Months}, '{Name}', {User_id});
@@ -156,4 +160,16 @@ def assignment():
     result = cursor.fetchall()
     conn.close()
     cursor.close()
-    return render_template("mainpage.html.jinja", result = result)
+    return render_template("mainpage.html.jinja", assignmentsend = result)
+
+@app.route("/", methods=["POST, GET"])
+@flask_login.login_required
+def assignmentreceive():
+    request.method == "POST, GET"
+    conn = connectdb()
+    cursor = conn.cursor()
+    User_id = flask_login.current_user.id
+    cursor.execute(f"""SELECT `years`,`minutes`,`hours`,`weeks`,`days`,`months`,`name`
+    FROM `Time` WHERE `user_id` = {User_id};""")
+    result = cursor.fetchall()
+    return render_template("mainpage.html.jinja", assignmentreceive = result)

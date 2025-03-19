@@ -167,3 +167,4 @@ const months = [
   function myFunction() {
     document.getElementById("myForm").submit();
   }
+  
