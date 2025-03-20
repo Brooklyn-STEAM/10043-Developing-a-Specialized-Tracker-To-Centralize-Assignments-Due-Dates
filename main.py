@@ -125,9 +125,6 @@ def logout():
     flask_login.logout_user()
     return redirect("/signin")
 
-
-
-
 @app.route("/")
 def main ():
     date.today().year
@@ -137,15 +134,20 @@ def main ():
 @app.route("/acc")
 def accounts():
     if flask_login.current_user.is_authenticated:
+        user_id = flask_login.current_user.id
         conn = connectdb()
         cursor = conn.cursor()
-        user_id = flask_login.current_user.id
-        cursor.execute(f"""SELECT `username`,`email`,`first_name`,`last_name` 
-        FROM `User` WHERE `id` = {user_id};""")
-        result = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        return render_template("account.html.jinja", account = result)
+        cursor.execute(f"SELECT `access` FROM `User` WHERE `id` = '{user_id}' ")
+        access = cursor.fetchone()
+        if access == 1:
+            cursor.execute(f"""SELECT `username`,`email`,`first_name`,`last_name` 
+            FROM `User` WHERE `id` = {user_id};""")
+            result = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            return render_template("account.html.jinja", account = result)
+        else:
+            return redirect("/acc/signin")
     else:
         return redirect ("/cta")
     
@@ -156,7 +158,7 @@ def userupd_username():
     conn = connectdb()
     cursor = conn.cursor()
     username = request.form["username"]
-    cursor.execute(f"UPDATE `User` SET `username` = '{username}' WHERE `id` = {user_id};")
+    cursor.execute(f"UPDATE `User` SET `username` = '{username}', `access` = `0` WHERE `id` = {user_id};")
     cursor.close()
     conn.close()
     return redirect("/acc")
@@ -168,7 +170,7 @@ def userupd_fname():
     conn = connectdb()
     cursor = conn.cursor()
     first_name = request.form["first_name"]
-    cursor.execute(f"UPDATE `User` SET `first_name` = '{first_name}' WHERE `id` = {user_id};")
+    cursor.execute(f"UPDATE `User` SET `first_name` = '{first_name}', `access` = `0` WHERE `id` = {user_id};")
     cursor.close()
     conn.close()
     return redirect("/acc")
@@ -180,7 +182,7 @@ def userupd_lname():
     conn = connectdb()
     cursor = conn.cursor()
     last_name = request.form["last_name"]
-    cursor.execute(f"UPDATE `User` SET `last_name` = '{last_name}' WHERE `id` = {user_id};")
+    cursor.execute(f"UPDATE `User` SET `last_name` = '{last_name}', `access` = `0` WHERE `id` = {user_id};")
     cursor.close()
     conn.close()
     return redirect("/acc")
@@ -192,7 +194,7 @@ def userupd_email():
     conn = connectdb()
     cursor = conn.cursor()
     email = request.form["email"]
-    cursor.execute(f"UPDATE `User` SET `email` = '{email}' WHERE `id` = {user_id};")
+    cursor.execute(f"UPDATE `User` SET `email` = '{email}', `access` = `0` WHERE `id` = {user_id};")
     cursor.close()
     conn.close()
     return redirect("/acc")
@@ -206,7 +208,7 @@ def userupd_pswd():
     password = request.form["password"]
     confirm_password = request.form["confirm_password"]
     if password == confirm_password:
-        cursor.execute(f"UPDATE `User` SET `password` = '{password}' WHERE `id` = {user_id};")
+        cursor.execute(f"UPDATE `User` SET `password` = '{password}', `access` = `0` WHERE `id` = {user_id};")
         cursor.close()
         conn.close()
         return redirect("/signin")
@@ -220,6 +222,7 @@ def accsin ():
     if request.method == "POST":
         email = request.form["email"].strip()
         password = request.form["pass"]
+        user_id = flask_login.current_user.id
         conn = connectdb()
         cursor = conn.cursor()
         cursor.execute(f"SELECT * FROM `User` WHERE `email` = '{email}';")
@@ -229,10 +232,11 @@ def accsin ():
             return redirect ("/acc/signin")
         elif password != result["password"]:
             flash("Your Username/Password is incorrect")
-            return redirect ()
+            return redirect ("/acc/signin")
         else:
-            user = User(result["id"], result["username"], result["email"], result["first_name"], result["last_name"])
+            user = User(result["id"], result["email"])
             flask_login.login_user(user)
+            cursor.execute(f"UPDATE `User` SET `access` = '1' WHERE `id` = {user_id}")
             cursor.close()
             conn.close()
             return redirect("/acc")
@@ -261,3 +265,6 @@ def assignment():
     cursor.close()
     return render_template("mainpage.html.jinja", result = result)
 
+@app.route("/settings")
+def settings():
+    return render_template ("settings.html.jinja")
