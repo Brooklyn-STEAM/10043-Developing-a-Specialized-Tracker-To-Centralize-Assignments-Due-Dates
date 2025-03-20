@@ -238,9 +238,12 @@ def accsin ():
             return redirect("/acc")
     return render_template("signin.html.jinja")
 
-@app.route("/", methods=["POST", "GET"])
-def assignment():
+
+@app.route("/", methods=["POST"])
+@flask_login.login_required
+def assignmentsend():
     request.method == "POST"
+    User_id = flask_login.current_user.id
     Name = request.form["name"]
     Years = request.form["years"]
     Minutes = request.form["minutes"]
@@ -252,12 +255,11 @@ def assignment():
     cursor = conn.cursor() 
     cursor.execute(f"""
                     INSERT INTO `Time` 
-                        (`years`, `minutes`, `hours`, `weeks`, `days`, `months`, `name`)
+                        (`years`, `minutes`, `hours`, `weeks`, `days`, `months`, `name`, `user_id`)
                     VALUE
-                        ({Years}, {Minutes}, {Hours}, {Weeks}, {Days}, {Months}, '{Name}');
+                        ({Years}, {Minutes}, {Hours}, {Weeks}, {Days}, {Months}, '{Name}', {User_id});
                     """)
     result = cursor.fetchall()
     conn.close()
     cursor.close()
-    return render_template("mainpage.html.jinja", result = result)
-
+    return render_template("mainpage.html.jinja", assignmentsend = result)
