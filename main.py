@@ -236,6 +236,7 @@ def accsin ():
             cursor.close()
             conn.close()
             return redirect("/acc")
+    return render_template("signin.html.jinja")
 
 @app.route("/", methods=["POST", "GET"])
 def assignment():
