@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, flash, abort, jsoni
 import flask_login
 import pymysql
 from dynaconf import Dynaconf
-from datetime import date, datatime
+from datetime import date, datetime
 
 app = Flask(__name__)
 
@@ -148,14 +148,14 @@ def assignmentsend():
     Weeks = request.form["weeks"]
     Days = request.form["days"]
     Months = request.form["months"]
-    Data = datatime.datatime
+    Date = datetime(int(Years), int(Months), int(Weeks), int(Days), int(Hours), int(Minutes))
     conn = connectdb()
     cursor = conn.cursor() 
     cursor.execute(f"""
                     INSERT INTO `Assignment` 
-                        (`years`, `minutes`, `hours`, `weeks`, `days`, `months`, `name`, `user_id`)
+                        (`date`, `name`, `user_id`)
                     VALUE
-                        ({Years}, {Minutes}, {Hours}, {Weeks}, {Days}, {Months}, '{Name}', {User_id});
+                        ({Date}, '{Name}', {User_id});
                     """)
     result = cursor.fetchall()
     conn.close()
