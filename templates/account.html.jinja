@@ -10,7 +10,7 @@
   <link href="/static/styles.css" rel="stylesheet">
 </head>
 
-<body class="bg-cstm-green">
+<body class=" bg-cstm-green">
   {% include "components/navbar.html.jinja" %}
   <h2 class="text-center">{{current_user.username}}'s Account Settings</h2>
   {%for acc in account%}
@@ -40,7 +40,7 @@
       </div>
       {%endfor%}
     </div>
-    <div class="text-center">
+    <div class=" text-center">
       <div class="row">
         <div class="col-7 mx-auto ">
           <label class="fs-4" for="floatingPassword">Password</label>
@@ -50,7 +50,7 @@
       </div>
       <br>
       <div class="row">
-        <div class="col-7 mx-auto">
+        <div class="col-7 mx-auto ">
           <input type="password" name="confirm_password" class="form-control form-control-lg" id="floatingPassword"
             placeholder="Confirm New Password" min="8" required>
         </div>
