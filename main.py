@@ -127,18 +127,14 @@ def logout():
     flask_login.logout_user()
     return redirect("/signin")
 
-
-
-
 @app.route("/")
 def main ():
     date.today().year
     year = range (date.today().year, date.today().year +3)
     return render_template("mainpage.html.jinja", year = year)
 
-@app.route("/", methods=["POST"])
-@flask_login.login_required
-def assignmentsend():
+@app.route("/", methods=["POST", "GET"])
+def assignment():
     request.method == "POST"
     User_id = flask_login.current_user.id
     Name = request.form["name"]
@@ -173,3 +169,9 @@ def assignmentreceive():
     FROM `Time` WHERE `user_id` = {User_id};""")
     result = cursor.fetchall()
     return render_template("mainpage.html.jinja", assignmentreceive = result)
+
+
+@app.route("/settings")
+def settings():
+    return render_template ("settings.html.jinja")
+

@@ -20,7 +20,7 @@
 
 </head>
 
-<body class="bg-cstm-red">
+<body class="bg-cstm-green">
   {% include "components/navbar.html.jinja" %}
   <div class="row w-100 mx-auto mb-1 text-center">
     <div class="d-flex justify-content-center">
@@ -29,6 +29,7 @@
         {% for years in year %}
           <option value="{{years}}" selected>{{years}}</option>
 
+        {% endfor %}
         {% endfor %}
           
         </select>
@@ -77,6 +78,28 @@
                                            border: none; border-radius: 3px;">Close</button>
         </div>
     </div>
+
+  </div>
+
+   <button id="openPopup" class="btn btn-cstm-red">Add Assignments</button>
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <h2>Create A New Assignment</h2>
+            <form id="myForm" action="/" method="post">
+              Name of the Assignment:<input type="text" name="name"><br>
+              Years:<input type="number" id="se" name="years"><br>
+              Minutes:<input type="number" id="mi" name="minutes"><br> 
+              Hours:<input type="number" id="ho" name="hours"><br> 
+              Days:<input type="number" id="da" name="days"><br> 
+              Weeks:<input type="number" id="we" name="weeks"><br> 
+              Months:<input type="number" id="mo" name="months"><br>
+              <input type="button" onclick="myFunction()" value="Submit form">
+            </form> 
+            <button id="closePopup" style="margin-top: 10px; padding:
+                                           5px 10px; background-color: #dc3545; color: #fff; 
+                                           border: none; border-radius: 3px;">Close</button>
+        </div>
+    </div>
   <script src="/static/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -88,6 +111,7 @@
 
         openPopup.addEventListener('click', () => {
             popup.style.display = 'flex';
+            console.log('Button clicked');
         });
 
         closePopup.addEventListener('click', () => {
@@ -100,6 +124,7 @@
             }
         });
     </script>
+
 </body>
 
 </html>
