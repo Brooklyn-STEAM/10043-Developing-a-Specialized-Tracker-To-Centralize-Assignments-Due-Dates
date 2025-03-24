@@ -141,17 +141,16 @@ def assignment():
     Years = request.form["years"]
     Minutes = request.form["minutes"]
     Hours = request.form["hours"]
-    Weeks = request.form["weeks"]
     Days = request.form["days"]
     Months = request.form["months"]
-    Date = datetime(int(Years), int(Months), int(Weeks), int(Days), int(Hours), int(Minutes))
+    Date = datetime(int(Years), int(Months), int(Days), int(Hours), int(Minutes))
     conn = connectdb()
     cursor = conn.cursor() 
     cursor.execute(f"""
-                    INSERT INTO `Assignment` 
+                    INSERT INTO `Assignments` 
                         (`date`, `name`, `user_id`)
                     VALUE
-                        ({Date}, '{Name}', {User_id});
+                        ('{Date.isoformat()}', '{Name}', {User_id});
                     """)
     result = cursor.fetchall()
     conn.close()
@@ -165,9 +164,10 @@ def assignmentreceive():
     conn = connectdb()
     cursor = conn.cursor()
     User_id = flask_login.current_user.id
-    cursor.execute(f"""SELECT `years`,`minutes`,`hours`,`weeks`,`days`,`months`,`name`
-    FROM `Time` WHERE `user_id` = {User_id};""")
+    cursor.execute(f"""SELECT * FROM `Assignments` WHERE `user_id` = {User_id};""")
     result = cursor.fetchall()
+    conn.close()
+    cursor.close()
     return render_template("mainpage.html.jinja", assignmentreceive = result)
 
 

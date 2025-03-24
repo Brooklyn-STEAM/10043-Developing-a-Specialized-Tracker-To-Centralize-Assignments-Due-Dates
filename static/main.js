@@ -164,7 +164,29 @@ const months = [
   
     console.log(timeSentence);
   }
-  function myFunction() {
+  function Popup() {
     document.getElementById("myForm").submit();
   }
+  class DecimalInput extends HTMLInputElement {
+    constructor() {
+      super();
+      this.addEventListener('change', (e) => {
+        const val = parseFloat(this.value),
+              min = parseFloat(this.min),
+              max = parseFloat(this.max),
+              step = parseFloat(this.step);
+              
+        if (val%step !== 0) {
+          this.value = Math.round(val/step) * step
+        }
+        if (val > max) {
+          this.value = max
+        }
+        if (val < min) {
+          this.value = min
+        }
+      })
+    }
+  }
   
+  customElements.define('decimal-input', DecimalInput, { extends: 'input' })
