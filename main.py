@@ -240,11 +240,7 @@ def accsin ():
             cursor.close()
             conn.close()
             return redirect("/acc")
-
-
     return render_template ("accsignin.html.jinja")
-
-
 
 @app.route("/", methods=["POST"])
 @flask_login.login_required
@@ -274,4 +270,3 @@ def assignmentsend():
 @app.route("/settings")
 def settings():
     return render_template ("settings.html.jinja")
-
