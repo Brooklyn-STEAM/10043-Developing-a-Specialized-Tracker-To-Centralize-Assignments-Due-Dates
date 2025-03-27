@@ -57,7 +57,7 @@
 
   </div>
 
-   <button id="openPopup" class="btn btn-cstm-red">Add Assignments</button>
+   <button id="openPopup" class="btn btn-cstm-red position-sticky position-absolute bottom-0 end-0 rounded-pill">Add Assignments</button>
     <div id="popup" class="popup">
         <div class="popup-content">
             <h2>Create A New Assignment</h2>
@@ -69,11 +69,9 @@
               Days:<input type="number" id="da" name="days"><br> 
               Weeks:<input type="number" id="we" name="weeks"><br> 
               Months:<input type="number" id="mo" name="months"><br>
-              <input type="button" onclick="myFunction()" value="Submit form">
+              <input type="button" class="rounded-pill" onclick="myFunction()" value="Submit form">
             </form> 
-            <button id="closePopup" style="margin-top: 10px; padding:
-                                           5px 10px; background-color: #dc3545; color: #fff; 
-                                           border: none; border-radius: 3px;">Close</button>
+            <button id="closePopup">Close</button>
         </div>
     </div>
   <script src="/static/main.js"></script>
