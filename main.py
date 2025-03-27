@@ -127,51 +127,55 @@ def logout():
     flask_login.logout_user()
     return redirect("/signin")
 
-@app.route("/")
-def main ():
-    date.today().year
-    year = range (date.today().year, date.today().year +3)
-    return render_template("mainpage.html.jinja", year = year)
 
-@app.route("/", methods=["POST", "GET"])
-def assignment():
-    request.method == "POST"
-    User_id = flask_login.current_user.id
-    Name = request.form["name"]
-    Years = request.form["years"]
-    Minutes = request.form["minutes"]
-    Hours = request.form["hours"]
-    Days = request.form["days"]
-    Months = request.form["months"]
-    Date = datetime(int(Years), int(Months), int(Days), int(Hours), int(Minutes))
-    conn = connectdb()
-    cursor = conn.cursor() 
-    cursor.execute(f"""
-                    INSERT INTO `Assignments` 
-                        (`date`, `name`, `user_id`)
-                    VALUE
-                        ('{Date.isoformat()}', '{Name}', {User_id});
-                    """)
-    result = cursor.fetchall()
-    conn.close()
-    cursor.close()
-    return render_template("mainpage.html.jinja", assignmentsend = result)
-
-@app.route("/", methods=["POST, GET"])
+@app.route("/", methods=['POST','GET'])
 @flask_login.login_required
-def assignmentreceive():
-    request.method == "POST, GET"
+def main():
+    date.today().year
+    year = range (date.today().year, date.today().year + 3)
     conn = connectdb()
     cursor = conn.cursor()
-    User_id = flask_login.current_user.id
-    cursor.execute(f"""SELECT * FROM `Assignments` WHERE `user_id` = {User_id};""")
-    result = cursor.fetchall()
-    conn.close()
+    User_id = flask_login.current_user.id 
+    cursor.execute(f"""SELECT * FROM Assignments WHERE user_id = 2 and date like '%2025-01-01%';""")
+    solution = cursor.fetchall()
+    print(solution)
     cursor.close()
-    return render_template("mainpage.html.jinja", assignmentreceive = result)
+    conn.close()
+    print('route being run')
+    print(solution)
+    return render_template("mainpage.html.jinja", year = year, solution = solution )
 
-
+# @app.route('/dateSub/<date>')
+# def date:
+    
+        
+    
+@app.route('/formSub', methods=['POST'])
+@flask_login.login_required
+def formSub():
+     if request.method == "POST":
+        conn = connectdb()
+        cursor = conn.cursor()
+        User_id = flask_login.current_user.id
+        Name = request.form["name"]
+        Years = request.form["years"]
+        Minutes = request.form["minutes"]
+        Hours = request.form["hours"]
+        Days = request.form["days"]
+        Months = request.form["months"]
+        Date = datetime(int(Years), int(Months), int(Days), int(Hours), int(Minutes))
+        cursor.execute(f"""
+                        INSERT INTO `Assignments` 
+                            (`date`, `name`, `user_id`)
+                        VALUE
+                            ('{Date.isoformat()}', '{Name}', {User_id});
+                        """)
+        result = cursor.fetchall()
+        cursor.close()
+        conn.close()
+        print('route being run')
+        return redirect("/")
+   
 @app.route("/settings")
 def settings():
     return render_template ("settings.html.jinja")
-

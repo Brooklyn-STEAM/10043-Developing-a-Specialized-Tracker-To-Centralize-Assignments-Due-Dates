@@ -166,6 +166,7 @@ const months = [
   }
   function Popup() {
     document.getElementById("myForm").submit();
+    console.log('Form submitted')
   }
   class DecimalInput extends HTMLInputElement {
     constructor() {
