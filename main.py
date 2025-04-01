@@ -138,7 +138,7 @@ def accounts():
         conn = connectdb()
         cursor = conn.cursor()
         cursor.execute(f"SELECT `access` FROM `User` WHERE `id` = '{user_id}' ")
-        access = cursor.fetchone()
+        access = cursor.fetchone()['access']
         if access == 1:
             cursor.execute(f"""SELECT `username`,`email`,`first_name`,`last_name` 
             FROM `User` WHERE `id` = {user_id};""")
@@ -225,17 +225,15 @@ def accsin ():
         user_id = flask_login.current_user.id
         conn = connectdb()
         cursor = conn.cursor()
-        cursor.execute(f"SELECT * FROM `User` WHERE `email` = '{email}';")
+        cursor.execute(f"SELECT * FROM `User` WHERE `user_id` = '{user_id}';")
         result = cursor.fetchone()
-        if result is None:
+        if email != result["email"]:
             flash("Your Username/Password is incorrect")
             return redirect ("/acc/signin")
         elif password != result["password"]:
             flash("Your Username/Password is incorrect")
             return redirect ("/acc/signin")
         else:
-            user = User(result["id"], result["email"])
-            flask_login.login_user(user)
             cursor.execute(f"UPDATE `User` SET `access` = '1' WHERE `id` = {user_id}")
             cursor.close()
             conn.close()

@@ -48,6 +48,7 @@ const months = [
     calendarContainer.owlCarousel("destroy");
     calendarContainer.empty();
     calendarContainer.owlCarousel({
+      center: true,
       loop: false,
       nav: true,
       navText: [
@@ -67,6 +68,8 @@ const months = [
         },
       },
       lazyLoad: true,
+      startPosition: "URLHash",
+      URLhashListener:true,
     });
 
     const daysInMonth = new Date(year, month + 1, 0).getDate();
@@ -76,7 +79,7 @@ const months = [
         .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
       
 
-        const dayCard = $("<div>")
+        const dayCard = $(`<div data-hash="${day}">`)
           .addClass("day-card card rounded btn-cstm-red")
           .html(
             "<p class='fw-bold'>" +
@@ -104,6 +107,7 @@ const months = [
         calendarContainer.trigger("add.owl.carousel", [dayCard]);
 
     }
+    window.location.hash = new Date().getDate();
     calendarContainer.trigger("refresh.owl.carousel");
   }
   yearDropdown.val(currentYear);
