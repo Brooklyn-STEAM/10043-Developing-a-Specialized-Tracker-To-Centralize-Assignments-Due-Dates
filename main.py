@@ -131,22 +131,31 @@ def logout():
 @app.route("/", methods=['POST','GET'])
 @flask_login.login_required
 def main():
-    date.today().year
-    year = range (date.today().year, date.today().year + 3)
+     date.today().year
+     year = range (date.today().year, date.today().year + 3)
+     conn = connectdb()
+     cursor = conn.cursor()
+     User_id = flask_login.current_user.id 
+    #  solution = cursor.fetchall()
+    #  print(solution)
+     cursor.close()
+     conn.close()
+     print('route being run')
+    #  print(solution)
+     return render_template("mainpage.html.jinja", year = year)
+
+@app.route('/dateSub/<info>')
+def info(info):
+    User_id = flask_login.current_user.id
     conn = connectdb()
     cursor = conn.cursor()
-    User_id = flask_login.current_user.id 
-    cursor.execute(f"""SELECT * FROM Assignments WHERE user_id = 2 and date like '%2025-01-01%';""")
-    solution = cursor.fetchall()
-    print(solution)
+    print(f'fetch ran! + {info}')
+    cursor.execute(f"""SELECT * FROM Assignments WHERE user_id = {User_id} and date like '%{info}%';""")
+    result = cursor.fetchone()
     cursor.close()
     conn.close()
-    print('route being run')
-    print(solution)
-    return render_template("mainpage.html.jinja", year = year, solution = solution )
-
-# @app.route('/dateSub/<date>')
-# def date:
+    print(result)
+    return jsonify(result)
     
         
     

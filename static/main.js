@@ -12,6 +12,7 @@ const months = [
     "November",
     "December",
   ];
+
   chooseddate = "";
   const monthShortNames = months.map((month) => month.substring(0, 3));
   const calendarContainer = $("#calendar-container");
@@ -87,8 +88,8 @@ const months = [
               "</h3>" +
               "<p>" +
               monthShortNames[month] +
-              "</p>"
-          )
+              "</p>" 
+        )
           .css("cursor", "pointer")
           .data("date", dateString);
 
@@ -99,6 +100,7 @@ const months = [
             const clickedDate = $(this).data("date");
             console.log("Clicked on", clickedDate);
             chooseddate = clickedDate;
+            fetchTest(chooseddate)
             $(this).addClass("border-success selectedcard");
         });
         calendarContainer.trigger("add.owl.carousel", [dayCard]);
@@ -189,5 +191,33 @@ const months = [
       })
     }
   }
+const assignment = (data) => {
+  if (!data){
+    console.log('No data')
+    return null;
+  }
+  else{
+    //add innerHTML
+  }
+}
   
   customElements.define('decimal-input', DecimalInput, { extends: 'input' })
+  const fetchTest = async (chooseddate) => {
+    try {
+      const response = await fetch(`/dateSub/${chooseddate}`); 
+      const data = await response.json();
+      assignment(data)
+      console.log("Fetched data:", data); // Debugging to check structure
+  
+      if (!Array.isArray(data)) {
+        console.log('Found data!')
+        return;
+      }
+  
+      return data; // Return fetched data
+    } catch (error) {
+      console.error("Error fetching tickets:", error);
+      return null;
+    }
+  };
+    
