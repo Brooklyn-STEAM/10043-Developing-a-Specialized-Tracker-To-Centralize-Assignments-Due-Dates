@@ -127,8 +127,33 @@ def logout():
     flask_login.logout_user()
     return redirect("/signin")
 
+@app.route("/")
+def main ():
+    date.today().year
+    year = range (date.today().year, date.today().year +3)
+    return render_template("mainpage.html.jinja", year = year)
 
-@app.route("/", methods=['POST','GET'])
+@app.route("/acc")
+def accounts():
+    if flask_login.current_user.is_authenticated:
+        user_id = flask_login.current_user.id
+        conn = connectdb()
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT `access` FROM `User` WHERE `id` = '{user_id}' ")
+        access = cursor.fetchone()['access']
+        if access == 1:
+            cursor.execute(f"""SELECT `username`,`email`,`first_name`,`last_name` 
+            FROM `User` WHERE `id` = {user_id};""")
+            result = cursor.fetchall()
+            cursor.close()
+            conn.close()
+            return render_template("account.html.jinja", account = result)
+        else:
+            return redirect("/acc/signin")
+    else:
+        return redirect ("/cta")
+    
+@app.route("/acc/updusername", methods = ["POST"])
 @flask_login.login_required
 def main():
      date.today().year
@@ -185,6 +210,46 @@ def formSub():
         print('route being run')
         return redirect("/")
    
+        cursor.execute(f"SELECT * FROM `User` WHERE `user_id` = '{user_id}';")
+        result = cursor.fetchone()
+        if email != result["email"]:
+            flash("Your Username/Password is incorrect")
+            return redirect ("/acc/signin")
+        elif password != result["password"]:
+            flash("Your Username/Password is incorrect")
+            return redirect ("/acc/signin")
+        else:
+            cursor.execute(f"UPDATE `User` SET `access` = '1' WHERE `id` = {user_id}")
+            cursor.close()
+            conn.close()
+            return redirect("/acc")
+    return render_template ("accsignin.html.jinja")
+
+@app.route("/", methods=["POST"])
+@flask_login.login_required
+def assignmentsend():
+    request.method == "POST"
+    User_id = flask_login.current_user.id
+    Name = request.form["name"]
+    Years = request.form["years"]
+    Minutes = request.form["minutes"]
+    Hours = request.form["hours"]
+    Weeks = request.form["weeks"]
+    Days = request.form["days"]
+    Months = request.form["months"]
+    conn = connectdb()
+    cursor = conn.cursor() 
+    cursor.execute(f"""
+                    INSERT INTO `Time` 
+                        (`years`, `minutes`, `hours`, `weeks`, `days`, `months`, `name`, `user_id`)
+                    VALUE
+                        ({Years}, {Minutes}, {Hours}, {Weeks}, {Days}, {Months}, '{Name}', {User_id});
+                    """)
+    result = cursor.fetchall()
+    conn.close()
+    cursor.close()
+    return render_template("mainpage.html.jinja", result = result)
+
 @app.route("/settings")
 def settings():
     return render_template ("settings.html.jinja")

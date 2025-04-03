@@ -36,7 +36,7 @@ background-color: #CEFFFA;
 }
 .popup {
     display: none;
-    position: fixed;
+    position: absolute;
     top: 0; left: 0;
     width: 100%; height: 100%;
     background: rgba(0, 0, 0, 0.5);
@@ -44,19 +44,69 @@ background-color: #CEFFFA;
     align-items: center;
 }
 .popup-content {
-    background: #fff;
+    background: #d45974;
     padding: 20px;
     border-radius: 5px;
     text-align: center;
+    color:white; 
 }
 
+/* number-1-is-navbar-number-2-is-whole */
+.dark-theme1{
+    background-color: #ADADAD;
+}
 
+.peach-beach1{
+    background-color: #FFF2CC;
+}
 
+.krystal-ice1{
+    background-color: #CCF0FF;
+}   
 
+.blueberry-cream1{
+    background-color: #FFF2CC;
+}
 
+.green-tea1{
+    background-color: #FFE6CC;
+}
 
+.pumpkin-pie1{
+    background-color: #FFA270;
+}
+testy 
+.sunset-purple1{
+    background-color: #D5BDE5;
+}
 
+.dark-theme2{
+    background-color: #4A4A4A;
+}
 
+.peach-beach2{
+    background-color: #E2B1B1;
+}
+
+.krystal-ice2{
+    background-color: #D8E5E9;
+}   
+
+.blueberry-cream2{
+    background-color: #DAE8FC;
+}
+
+.green-tea2{
+    background-color: #CEDBB3;
+}
+
+.pumpkin-pie2{
+    background-color: #ECB883;
+}
+
+.sunset-purple2{
+    background-color: #FAD9D5;
+}
 
 :hover.btn-cstm-meow{
     background-color: #a186e9;
@@ -141,4 +191,13 @@ background-color: #CEFFFA;
     padding: 20px;
     border-radius: 5px;
     text-align: center;
+}
+
+  
+.list-group{ 
+    --bs-list-group-bg: none
+  }
+
+  .owl-carousel{
+    z-index: 0;
 }
