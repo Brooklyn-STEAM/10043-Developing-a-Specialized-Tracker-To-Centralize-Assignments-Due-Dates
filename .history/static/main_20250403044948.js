@@ -198,7 +198,7 @@ const assignment = (data) => {
   }
   else{
     //add innerHTML
-    document.getElementById("p1").innerHTML = data;
+    
   }
 }
   
