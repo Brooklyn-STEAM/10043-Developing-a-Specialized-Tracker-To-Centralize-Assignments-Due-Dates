@@ -28,7 +28,6 @@
         <select class="form-control" id="yearDropdown">
         {% for years in year %}
           <option value="{{years}}" selected>{{years}}</option>
-
         {% endfor %}
           
         </select>
@@ -56,24 +55,33 @@
     </div>
 
   </div>
+<div>
+  {{assignmentreceive}}
+<!--{%for Assignments in solution%}
+    <p>{{Assignments["date"]}}</p>
+    <p>{{Assignments["name"]}}</p>
+  {%endfor%}-->
+  <p id ="p1">You have no Assignments</p>
+</div>
+  {# </div> #}
 
    <button id="openPopup" class="btn btn-cstm-red position-sticky position-absolute bottom-0 end-0 rounded-pill">Add Assignments</button>
     <div id="popup" class="popup">
         <div class="popup-content">
             <h2>Create A New Assignment</h2>
-            <form id="myForm" action="/" method="post">
+            <form id="myForm" action="/formSub" method="post">
               Name of the Assignment:<input type="text" name="name"><br>
-              Years:<input type="number" id="se" name="years"><br>
-              Minutes:<input type="number" id="mi" name="minutes"><br> 
-              Hours:<input type="number" id="ho" name="hours"><br> 
-              Days:<input type="number" id="da" name="days"><br> 
-              Weeks:<input type="number" id="we" name="weeks"><br> 
-              Months:<input type="number" id="mo" name="months"><br>
-              <input type="button" class="rounded-pill" onclick="myFunction()" value="Submit form">
+              Years:<input type="number" id="se" name="years" is="decimal-input" min="2025" max="2027" step="1" value="2025"><br>
+              Minutes:<input type="number" id="mi" name="minutes" is="decimal-input" min="0" max="60" step="1" value="0" ><br> 
+              Hours:<input type="number" id="ho" name="hours" is="decimal-input" min="1" max="24" step="1" value="1" ><br> 
+              Days:<input type="number" id="da" name="days" is="decimal-input" min="1" max="30" step="1" value="1"><br> 
+              Months:<input type="number" id="mo" name="months" is="decimal-input" min="1" max="12" step="1" value="1"><br>
+              <input type="button" onclick="Popup()" value="Submit form">
             </form> 
-            <button id="closePopup">Close</button>
+            <button id="closePopup" style="margin-top: 10px; padding: 5px 10px; background-color: #dc3545; color: #fff; border: none; border-radius: 3px;">Close</button>
         </div>
     </div>
+
   <script src="/static/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
