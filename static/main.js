@@ -198,9 +198,15 @@ const assignment = (data) => {
   }
   else{
     //add innerHTML
-    document.getElementById("p1").innerHTML = data;
+    console.log(data)
+      console.log('Here ' + data.date)
+      document.getElementById("p1").innerHTML = `
+      <div>
+        Assignment Due at ${data.date}
+      </div>
+      `;
   }
-}
+  }
   
   customElements.define('decimal-input', DecimalInput, { extends: 'input' })
   const fetchTest = async (chooseddate) => {
