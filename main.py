@@ -242,7 +242,7 @@ def formSub():
         cursor.close()
         conn.close()
         return redirect("/signin")
-    else:
+     else:
         flash("The passwords don't match")
         return redirect ("/acc")
 
