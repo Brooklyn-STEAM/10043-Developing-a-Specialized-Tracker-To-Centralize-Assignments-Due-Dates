@@ -190,7 +190,7 @@ def accsin():
 
 @app.route("/acc/updusername", methods=["POST"])
 @flask_login.login_required
-def main():
+def updusername():
     date.today().year
     year = range(date.today().year, date.today().year + 3)
     conn = connectdb()
