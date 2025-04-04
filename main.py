@@ -170,7 +170,7 @@ def accsin():
         conn = connectdb()
         cursor = conn.cursor()
         cursor.execute(
-            f"SELECT * FROM `User` WHERE `user_id` = '{user_id}';")
+            f"SELECT * FROM `User` WHERE `id` = '{user_id}';")
         result = cursor.fetchone()
         if email != result["email"]:
             flash("Your Username/Password is incorrect")
@@ -294,67 +294,6 @@ def formSub():
      else:
         flash("The passwords don't match")
         return redirect ("/acc")
-
-
-@app.route('/dateSub/<info>')
-def info(info):
-    User_id = flask_login.current_user.id
-    conn = connectdb()
-    cursor = conn.cursor()
-    print(f'fetch ran! + {info}')
-    cursor.execute(
-        f"""SELECT * FROM Assignments WHERE user_id = {User_id} and date like '%{info}%';""")
-    result = cursor.fetchone()
-    cursor.close()
-    conn.close()
-    print(result)
-    return jsonify(result)
-
-
-@app.route('/formSub', methods=['POST'])
-@flask_login.login_required
-def formSub():
-    if request.method == "POST":
-        conn = connectdb()
-        cursor = conn.cursor()
-        User_id = flask_login.current_user.id
-        Name = request.form["name"]
-        Years = request.form["years"]
-        Minutes = request.form["minutes"]
-        Hours = request.form["hours"]
-        Days = request.form["days"]
-        Months = request.form["months"]
-        Date = datetime(int(Years), int(Months), int(
-            Days), int(Hours), int(Minutes))
-        cursor.execute(f"""
-                        INSERT INTO `Assignments` 
-                            (`date`, `name`, `user_id`)
-                        VALUE
-                            ('{Date.isoformat()}', '{Name}', {User_id});
-                        """)
-        result = cursor.fetchall()
-        cursor.close()
-        conn.close()
-        print('route being run')
-        return redirect("/")
-
-        print('route being run')
-        return redirect("/")
-   
-        cursor.execute(f"SELECT * FROM `User` WHERE `user_id` = '{user_id}';")
-        result = cursor.fetchone()
-        if email != result["email"]:
-            flash("Your Username/Password is incorrect")
-            return redirect ("/acc/signin")
-        elif password != result["password"]:
-            flash("Your Username/Password is incorrect")
-            return redirect ("/acc/signin")
-        else:
-            cursor.execute(f"UPDATE `User` SET `access` = '1' WHERE `id` = {user_id}")
-            cursor.close()
-            conn.close()
-            return redirect("/acc")
-    return render_template ("accsignin.html.jinja")
 
 @app.route("/", methods=["POST"])
 @flask_login.login_required
