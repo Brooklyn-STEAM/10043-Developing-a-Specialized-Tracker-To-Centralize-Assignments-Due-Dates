@@ -187,63 +187,21 @@ def accsin():
     return render_template("accsignin.html.jinja")
 
 
-@app.route("/acc/updusername", methods=["POST"])
+@app.route("/acc/upduser", methods=["POST"])
 @flask_login.login_required
 def updusername():
     date.today().year
     year = range(date.today().year, date.today().year + 3)
     conn = connectdb()
     cursor = conn.cursor()
-    User_id = flask_login.current_user.id
-    #  solution = cursor.fetchall()
-    #  print(solution)
-    cursor.close()
-    conn.close()
-    print('route being run')
-    #  print(solution)
-    return render_template("mainpage.html.jinja", year=year)
-
-@app.route("/acc/updfname", methods = ["POST"])
-@flask_login.login_required
-def userupd_fname():
-    user_id = flask_login.current_user.id
-    conn = connectdb()
-    cursor = conn.cursor()
+    username = request.form["username"]
+    cursor.execute(f"UPDATE `User` SET `username` = '{username}', `access` = `0` WHERE `id` = {user_id};")
     first_name = request.form["first_name"]
     cursor.execute(f"UPDATE `User` SET `first_name` = '{first_name}', `access` = `0` WHERE `id` = {user_id};")
-    cursor.close()
-    conn.close()
-    return redirect("/acc")
-
-@app.route("/acc/updlname", methods = ["POST"])
-@flask_login.login_required
-def userupd_lname():
-    user_id = flask_login.current_user.id
-    conn = connectdb()
-    cursor = conn.cursor()
     last_name = request.form["last_name"]
     cursor.execute(f"UPDATE `User` SET `last_name` = '{last_name}', `access` = `0` WHERE `id` = {user_id};")
-    cursor.close()
-    conn.close()
-    return redirect("/acc")
-
-@app.route("/acc/updemail", methods = ["POST"])
-@flask_login.login_required
-def userupd_email():
-    user_id = flask_login.current_user.id
-    conn = connectdb()
-    cursor = conn.cursor()
     email = request.form["email"]
     cursor.execute(f"UPDATE `User` SET `email` = '{email}', `access` = `0` WHERE `id` = {user_id};")
-    cursor.close()
-    conn.close()
-    return redirect("/acc")
-
-@app.route("/acc/updpswd", methods = ["POST"])
-def userupd_pswd():
-    user_id = flask_login.current_user.id
-    conn = connectdb()
-    cursor = conn.cursor()
     password = request.form["password"]
     confirm_password = request.form["confirm_password"]
     if password == confirm_password:
@@ -294,6 +252,32 @@ def formSub():
      else:
         flash("The passwords don't match")
         return redirect ("/acc")
+
+
+
+@app.route("/acc/signin", methods=["POST","GET"])
+def accsin ():
+
+    if request.method == "POST":
+        email = request.form["email"].strip()
+        password = request.form["pass"]
+        user_id = flask_login.current_user.id
+        conn = connectdb()
+        cursor = conn.cursor()
+        cursor.execute(f"SELECT * FROM `User` WHERE `user_id` = '{user_id}';")
+        result = cursor.fetchone()
+        if email != result["email"]:
+            flash("Your Username/Password is incorrect")
+            return redirect ("/acc/signin")
+        elif password != result["password"]:
+            flash("Your Username/Password is incorrect")
+            return redirect ("/acc/signin")
+        else:
+            cursor.execute(f"UPDATE `User` SET `access` = '1' WHERE `id` = {user_id}")
+            cursor.close()
+            conn.close()
+            return redirect("/acc")
+    return render_template ("accsignin.html.jinja")
 
 @app.route("/", methods=["POST"])
 @flask_login.login_required
