@@ -151,7 +151,7 @@ def accounts():
     else:
         return redirect ("/cta")
     
-@app.route("/acc/updusername", methods = ["POST"])
+@app.route("/acc/upduser", methods = ["POST"])
 @flask_login.login_required
 def userupd_username():
     user_id = flask_login.current_user.id
@@ -159,52 +159,12 @@ def userupd_username():
     cursor = conn.cursor()
     username = request.form["username"]
     cursor.execute(f"UPDATE `User` SET `username` = '{username}', `access` = `0` WHERE `id` = {user_id};")
-    cursor.close()
-    conn.close()
-    return redirect("/acc")
-
-@app.route("/acc/updfname", methods = ["POST"])
-@flask_login.login_required
-def userupd_fname():
-    user_id = flask_login.current_user.id
-    conn = connectdb()
-    cursor = conn.cursor()
     first_name = request.form["first_name"]
     cursor.execute(f"UPDATE `User` SET `first_name` = '{first_name}', `access` = `0` WHERE `id` = {user_id};")
-    cursor.close()
-    conn.close()
-    return redirect("/acc")
-
-@app.route("/acc/updlname", methods = ["POST"])
-@flask_login.login_required
-def userupd_lname():
-    user_id = flask_login.current_user.id
-    conn = connectdb()
-    cursor = conn.cursor()
     last_name = request.form["last_name"]
     cursor.execute(f"UPDATE `User` SET `last_name` = '{last_name}', `access` = `0` WHERE `id` = {user_id};")
-    cursor.close()
-    conn.close()
-    return redirect("/acc")
-
-@app.route("/acc/updemail", methods = ["POST"])
-@flask_login.login_required
-def userupd_email():
-    user_id = flask_login.current_user.id
-    conn = connectdb()
-    cursor = conn.cursor()
     email = request.form["email"]
     cursor.execute(f"UPDATE `User` SET `email` = '{email}', `access` = `0` WHERE `id` = {user_id};")
-    cursor.close()
-    conn.close()
-    return redirect("/acc")
-
-@app.route("/acc/updpswd", methods = ["POST"])
-@flask_login.login_required
-def userupd_pswd():
-    user_id = flask_login.current_user.id
-    conn = connectdb()
-    cursor = conn.cursor()
     password = request.form["password"]
     confirm_password = request.form["confirm_password"]
     if password == confirm_password:
@@ -215,6 +175,8 @@ def userupd_pswd():
     else:
         flash("The passwords don't match")
         return redirect ("/acc")
+
+
 
 @app.route("/acc/signin", methods=["POST","GET"])
 def accsin ():
