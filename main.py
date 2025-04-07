@@ -158,6 +158,32 @@ def accounts():
             return redirect("/acc/signin")
     else:
         return redirect("/cta")
+    
+
+@app.route("/acc/signin", methods=["POST", "GET"])
+def accsin():
+    if request.method == "POST":
+        email = request.form["email"].strip()
+        password = request.form["pass"]
+        user_id = flask_login.current_user.id
+        conn = connectdb()
+        cursor = conn.cursor()
+        cursor.execute(
+            f"SELECT * FROM `User` WHERE `id` = '{user_id}';")
+        result = cursor.fetchone()
+        if email != result["email"]:
+            flash("Your Username/Password is incorrect")
+            return redirect("/acc/signin")
+        elif password != result["password"]:
+                flash("Your Username/Password is incorrect")
+                return redirect("/acc/signin")
+        else:
+                cursor.execute(
+                    f"UPDATE `User` SET `access` = '1' WHERE `id` = {user_id}")
+                cursor.close()
+                conn.close()
+                return redirect("/acc")
+    return render_template("accsignin.html.jinja")
 
 
 @app.route("/acc/upduser", methods=["POST"])
