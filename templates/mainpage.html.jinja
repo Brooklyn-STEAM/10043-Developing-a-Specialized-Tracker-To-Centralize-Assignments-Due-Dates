@@ -65,7 +65,7 @@
 </div>
   {# </div> #}
 
-   <button id="openPopup" class="btn btn-cstm-red sticky position-absolute bottom-0 end-0 rounded-pill">Add Assignments</button>
+   <button id="openPopup" class="btn btn-cstm-red position-sticky position-absolute bottom-0 end-0 rounded-pill">Add Assignments</button>
     <div id="popup" class="popup">
         <div class="popup-content">
             <h2>Create A New Assignment</h2>
@@ -78,7 +78,7 @@
               Months:<input type="number" id="mo" name="months" is="decimal-input" min="1" max="12" step="1" value="1"><br>
               <input type="button" onclick="Popup()" value="Submit form">
             </form> 
-            <button id="closePopup" class="rounded-pill">Close</button>
+            <button id="closePopup" style="margin-top: 10px; padding: 5px 10px; background-color: #dc3545; color: #fff; border: none; border-radius: 3px;">Close</button>
         </div>
     </div>
     {% include "components/footer.html.jinja" %}
