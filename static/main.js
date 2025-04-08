@@ -201,14 +201,23 @@ const assignment = (data) => {
     return null;
   }
   else{
+    var container = document.getElementById("p1")
+
+    container.innerHTML = ''
     //add innerHTML
     console.log(data)
       console.log('Here ' + data.date)
-      document.getElementById("p1").innerHTML = `
-      <div>
-        Assignment Due at ${data.date}
-      </div>
-      `;
+      for(let datas of data){
+        // where card beginning should be
+  
+      var child = document.createElement('div')
+ 
+ 
+      child.innerHTML = `
+          ${datas.name} Due at ${datas.date}<br>
+        `;
+      container.appendChild(child)
+      }
   }
   }
   
