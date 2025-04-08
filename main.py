@@ -158,11 +158,10 @@ def accounts():
             return redirect("/acc/signin")
     else:
         return redirect("/cta")
-
+    
 
 @app.route("/acc/signin", methods=["POST", "GET"])
 def accsin():
-
     if request.method == "POST":
         email = request.form["email"].strip()
         password = request.form["pass"]
@@ -190,22 +189,22 @@ def accsin():
 @app.route("/acc/upduser", methods=["POST"])
 @flask_login.login_required
 def updusername():
-    date.today().year
-    year = range(date.today().year, date.today().year + 3)
+    user_id = flask_login.current_user.id
     conn = connectdb()
     cursor = conn.cursor()
     username = request.form["username"]
-    cursor.execute(f"UPDATE `User` SET `username` = '{username}', `access` = `0` WHERE `id` = {user_id};")
+    cursor.execute("UPDATE User SET username = %s, access = 0 WHERE id = %s;",(username, user_id))
     first_name = request.form["first_name"]
-    cursor.execute(f"UPDATE `User` SET `first_name` = '{first_name}', `access` = `0` WHERE `id` = {user_id};")
+    cursor.execute("UPDATE User SET first_name = %s, access = 0 WHERE id = %s;", (first_name, user_id))
     last_name = request.form["last_name"]
-    cursor.execute(f"UPDATE `User` SET `last_name` = '{last_name}', `access` = `0` WHERE `id` = {user_id};")
+    cursor.execute("UPDATE User SET last_name = %s, access = 0 WHERE id = %s;", (last_name, user_id))
     email = request.form["email"]
-    cursor.execute(f"UPDATE `User` SET `email` = '{email}', `access` = `0` WHERE `id` = {user_id};")
+    cursor.execute("UPDATE User SET email = %s, access = 0 WHERE id = %s;", (email, user_id))
     password = request.form["password"]
     confirm_password = request.form["confirm_password"]
     if password == confirm_password:
-        cursor.execute(f"UPDATE `User` SET `password` = '{password}', `access` = `0` WHERE `id` = {user_id};")
+        cursor.execute("UPDATE User SET password = %s, access = 0 WHERE id = %s;",(password, user_id))
+        return redirect("/logout")
     else:
         flash("The passwords don't match")
         return redirect ("/acc")
