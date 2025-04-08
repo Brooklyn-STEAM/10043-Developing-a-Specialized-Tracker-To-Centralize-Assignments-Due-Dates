@@ -216,7 +216,7 @@ def info(info):
     cursor = conn.cursor()
     print(f'fetch ran! + {info}')
     cursor.execute(f"""SELECT * FROM Assignments WHERE user_id = {User_id} and date like '%{info}%';""")
-    result = cursor.fetchone()
+    result = cursor.fetchall()
     cursor.close()
     conn.close()
     print(result)
