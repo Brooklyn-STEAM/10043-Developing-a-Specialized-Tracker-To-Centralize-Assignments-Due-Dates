@@ -20,7 +20,7 @@ const months = [
   const monthDropdown = $("#monthDropdown");
 
   const currentYear = new Date().getFullYear();
-  const currentMonth = new Date().getMonth();
+  let currentMonth = new Date().getMonth();
   const currentDay = new Date().getDate();
 
   function updateMonthDropdownOptions(selectedYear) {
@@ -95,7 +95,7 @@ const months = [
         )
           .css("cursor", "pointer")
           .data("date", dateString);
-
+          
         dayCard.on("click", function () {
             calendarContainer
               .find(".day-card")
@@ -240,4 +240,6 @@ const assignment = (data) => {
       return null;
     }
   };
-    
+  today =  new Date().toISOString().split('T')[0]
+  fetchTest(today);
+  // console.log(today); 
