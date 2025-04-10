@@ -281,3 +281,18 @@ def assignmentsend():
 @app.route("/settings")
 def settings():
     return render_template("settings.html.jinja")
+
+@app.route("/acc/delete_account", methods=["POST"])
+@flask_login.login_required
+def delete_account():
+    conn = connectdb()
+    cursor = conn.cursor()
+
+    user_id = flask_login.current_user.id
+
+    cursor.execute(f"DELETE FROM `Users` WHERE `id` = {user_id}; ")
+
+    cursor.close()
+    conn.close()
+
+    return redirect("/")

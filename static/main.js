@@ -171,8 +171,10 @@ const months = [
     console.log(timeSentence);
   }
   function Popup() {
+    const nameForm = document.getElementById("name").value;
+    if(nameForm.length > 0){
     document.getElementById("myForm").submit();
-    console.log('Form submitted')
+    console.log('Form submitted')};
   }
   class DecimalInput extends HTMLInputElement {
     constructor() {
@@ -227,7 +229,7 @@ const assignment = (data) => {
       const response = await fetch(`/dateSub/${chooseddate}`); 
       const data = await response.json();
       assignment(data)
-      console.log("Fetched data:", data); // Debugging to check structure
+      console.log("Fetched data: ", data); // Debugging to check structure
   
       if (!Array.isArray(data)) {
         console.log('Found data!')
