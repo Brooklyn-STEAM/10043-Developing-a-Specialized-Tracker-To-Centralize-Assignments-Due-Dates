@@ -209,10 +209,12 @@ const assignment = (data) => {
       console.log('Here ' + data.date)
       for(let datas of data){
         // where card beginning should be
+        
   
       var child = document.createElement('div')
- 
- 
+
+      child.className = 'card'
+
       child.innerHTML = `
           ${datas.name} Due at ${datas.date}<br>
         `;

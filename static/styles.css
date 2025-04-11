@@ -23,8 +23,8 @@ background-color: #CEFFFA;
 :hover.btn-cstm-red{
     background-color: #e6859a;
 }
-.txt-cstm-red{
-    color: #d45974;
+.txt-cstm-white{
+    color: azure;
 }
 .btn-cstm-meow{
     color: #a91919;
@@ -179,7 +179,12 @@ testy
   
 .list-group{ 
     --bs-list-group-bg: none
+    
   }
+
+.card{
+    --bs-card-bg: #d45974;
+}
 
   .owl-carousel{
     z-index: 0;
