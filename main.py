@@ -3,6 +3,7 @@ import flask_login
 import pymysql
 from dynaconf import Dynaconf
 from datetime import date, datetime
+from ics import Calendar
 
 app = Flask(__name__)
 
@@ -296,3 +297,29 @@ def delete_account():
     conn.close()
 
     return redirect("/")
+
+@app.route("/fileupload", methods=['POST'])
+@flask_login.login_required
+def upload_file():
+    User_id = flask_login.current_user.id
+    file = request.files['filename']
+    string = file.stream.read().decode()
+    c = Calendar(string)
+    for e in c.events:
+        name = e.name
+        Date = e.end.datetime.isoformat().split('+')[0]
+    
+        if "event" not in e.url and len(name) > 0:
+            conn = connectdb()
+            cursor = conn.cursor()
+            cursor.execute(f"""
+                            INSERT INTO `Assignments` 
+                                (`name`, `date`, `user_id`)
+                            VALUE
+                                ('{name}', '{Date}', {User_id});
+                            """)
+            result = cursor.fetchall()
+            conn.close()
+            cursor.close()
+
+    return redirect ("/")
