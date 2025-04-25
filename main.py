@@ -308,15 +308,16 @@ def upload_file():
     for e in c.events:
         name = e.name
         Date = e.end.datetime.isoformat().split('+')[0]
-    
+        importid = e.uid
         if "event" not in e.url and len(name) > 0:
             conn = connectdb()
             cursor = conn.cursor()
+            # use select function and get a result for importid then use result as a variable in the conditional statment
             cursor.execute(f"""
-                            INSERT INTO `Assignments` 
-                                (`name`, `date`, `user_id`)
+                            INSERT INTO `Assignments` WHERE NOT `importid` = 
+                                (`name`, `date`, `user_id`, `importid`)
                             VALUE
-                                ('{name}', '{Date}', {User_id});
+                                ('{name}', '{Date}', {User_id}, '{importid}');
                             """)
             result = cursor.fetchall()
             conn.close()
