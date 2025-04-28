@@ -82,30 +82,49 @@
         </div>
     </div>
     {% include "components/footer.html.jinja" %}
-  <script src="/static/main.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+<script src="/static/main.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
-    <script>
-        const openPopup = document.getElementById('openPopup');
-        const closePopup = document.getElementById('closePopup');
-        const popup = document.getElementById('popup');
+ <script>
+    const openPopup = document.getElementById('openPopup');
+    const closePopup = document.getElementById('closePopup');
+    const popup = document.getElementById('popup');
 
-        openPopup.addEventListener('click', () => {
-            popup.style.display = 'flex';
-            console.log('Button clicked');
-        });
+    openPopup.addEventListener('click', () => {
+        popup.style.display = 'flex';
+        console.log('Button clicked');
+    });
 
-        closePopup.addEventListener('click', () => {
+    closePopup.addEventListener('click', () => {
+        popup.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === popup) {
             popup.style.display = 'none';
-        });
+        }
+    });
 
-        window.addEventListener('click', (event) => {
-            if (event.target === popup) {
-                popup.style.display = 'none';
-            }
-        });
-    </script>
+    gapi.load('client', {
+    callback: function() {
+    // Handle gapi.client initialization.
+    initGapiClient();
+    },
+    onerror: function() {
+    // Handle loading error.
+    alert('gapi.client failed to load!');
+    },
+    timeout: 5000, // 5 seconds.
+    ontimeout: function() {
+    // Handle timeout.
+    alert('gapi.client could not load in a timely manner!');
+    }
+    });
+
+</script>
+<script src="gg.js"></script>
+<script async defer src="https://apis.google.com/js/api.js" onload="this.onload=function(){};handleClientLoad()" onreadystatechange="if (this.readyState === 'complete') this.onload()"></script>
 
 </body>
 
