@@ -24,7 +24,7 @@ background-color: #CEFFFA;
     background-color: #e6859a;
 }
 .txt-cstm-white{
-    color: azure;
+    color: rgb(70, 250, 250);
 }
 .btn-cstm-meow{
     color: #a91919;
@@ -182,7 +182,9 @@ testy
     
   }
 
-.card{
+
+
+.edge{
     --bs-card-bg: #d45974;
 }
 
