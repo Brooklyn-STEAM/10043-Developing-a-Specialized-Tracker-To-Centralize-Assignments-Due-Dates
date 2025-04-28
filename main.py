@@ -253,31 +253,6 @@ def formSub():
         flash("The passwords don't match")
         return redirect ("/acc")
 
-@app.route("/", methods=["POST"])
-@flask_login.login_required
-def assignmentsend():
-    request.method == "POST"
-    User_id = flask_login.current_user.id
-    Name = request.form["name"]
-    Years = request.form["years"]
-    Minutes = request.form["minutes"]
-    Hours = request.form["hours"]
-    Weeks = request.form["weeks"]
-    Days = request.form["days"]
-    Months = request.form["months"]
-    conn = connectdb()
-    cursor = conn.cursor()
-    cursor.execute(f"""
-                    INSERT INTO `Time` 
-                        (`years`, `minutes`, `hours`, `weeks`, `days`, `months`, `name`, `user_id`)
-                    VALUE
-                        ({Years}, {Minutes}, {Hours}, {Weeks}, {Days}, {Months}, '{Name}', {User_id});
-                    """)
-    result = cursor.fetchall()
-    conn.close()
-    cursor.close()
-    return render_template("mainpage.html.jinja", result=result)
-
 
 @app.route("/settings")
 def settings():
@@ -308,17 +283,19 @@ def upload_file():
     for e in c.events:
         name = e.name
         Date = e.end.datetime.isoformat().split('+')[0]
-    
+        importid = e.uid
         if "event" not in e.url and len(name) > 0:
             conn = connectdb()
             cursor = conn.cursor()
             cursor.execute(f"""
-                            INSERT INTO `Assignments` 
-                                (`name`, `date`, `user_id`)
-                            VALUE
-                                ('{name}', '{Date}', {User_id});
-                            """)
-            result = cursor.fetchall()
+                INSERT INTO `Assignments`
+                    (`name`, `date`, `user_id`, `importid`)
+                VALUE
+                    ('{name}', '{Date}', {User_id}, '{importid}')
+                ON DUPLICATE KEY UPDATE
+                    `name` = '{name}',
+                    `date` = '{Date}';
+                """)
             conn.close()
             cursor.close()
 
