@@ -215,7 +215,7 @@ const assignment = (data) => {
   
       var child = document.createElement('div')
 
-      child.className = 'card edge'
+      child.className = 'card edge mb-3'
 
       child.innerHTML = `
           ${datas.name} Due at ${datas.date}<br>
