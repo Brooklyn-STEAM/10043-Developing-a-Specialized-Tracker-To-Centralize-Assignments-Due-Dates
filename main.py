@@ -6,6 +6,7 @@ from datetime import date, datetime
 from ics import Calendar
 
 app = Flask(__name__)
+access = 0
 
 conf = Dynaconf(
     settings_file=["settings.toml"]
@@ -110,10 +111,10 @@ def sup():
                 try:
                     cursor.execute(f"""
                     INSERT INTO `User`
-                        (`first_name`, `last_name`, `username`, `password`, `email`)
+                        (`first_name`, `last_name`, `username`, `password`, `email`,`access`)
                     VALUE
                         ('{first_name}', '{last_name}',
-                         '{username}', '{password}', '{email}');
+                         '{username}', '{password}', '{email}',{access});
                     """)
                 except pymysql.err.IntegrityError:
                     flash("Username/Email is already in use")
