@@ -4,6 +4,8 @@ import pymysql
 from dynaconf import Dynaconf
 from datetime import date, datetime
 from ics import Calendar
+from notion_client import Client
+import os
 
 app = Flask(__name__)
 
@@ -323,3 +325,30 @@ def upload_file():
             cursor.close()
 
     return redirect ("/")
+
+
+
+# Replace this with your actual Notion secret
+notion = Client(auth=os.environ.get("NOTION_API_KEY", "secret_xxx"))
+
+DATABASE_ID = "your_notion_calendar_database_id"
+
+@app.route("/calendar")
+def get_calendar():
+    response = notion.databases.query(database_id=DATABASE_ID)
+
+    events = []
+    for result in response["results"]:
+        props = result["properties"]
+        title = props["Name"]["title"][0]["plain_text"] if props["Name"]["title"] else "Untitled"
+        date_info = props["Date"]["date"]
+        events.append({
+            "title": title,
+            "start": date_info["start"],
+            "end": date_info.get("end")  # optional
+        })
+
+    return jsonify(events)
+
+if __name__ == "__main__":
+    app.run(debug=True)
