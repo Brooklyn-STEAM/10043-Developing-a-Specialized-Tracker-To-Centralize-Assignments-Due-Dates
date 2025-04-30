@@ -55,17 +55,18 @@
     </div>
 
   </div>
-<div>
+<div class="container col-3 mx-auto mt-2">
   {{assignmentreceive}}
 <!--{%for Assignments in solution%}
     <p>{{Assignments["date"]}}</p>
     <p>{{Assignments["name"]}}</p>
   {%endfor%}-->
-  <p id ="p1">You have no Assignments</p>
+  <p id ="p1" class=" text-center">You have no Assignments</p>
 </div>
   {# </div> #}
-
-   <button id="openPopup" class="btn btn-cstm-red position-sticky position-absolute bottom-0 end-0 rounded-pill">Add Assignments</button>
+  <div class="d-flex justify-content-end align-self-end">
+   <button id="openPopup" class="btn btn-cstm-red position-sticky rounded-pill">Add Assignments</button>
+    </div>
     <div id="popup" class="popup">
         <div class="popup-content">
             <h2>Create A New Assignment</h2>
