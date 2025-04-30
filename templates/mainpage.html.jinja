@@ -15,7 +15,7 @@
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-  integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <link href="/static/styles.css" rel="stylesheet">
 
 </head>
@@ -26,10 +26,10 @@
     <div class="d-flex justify-content-center">
       <div class="col-md-3 my-2">
         <select class="form-control" id="yearDropdown">
-        {% for years in year %}
+          {% for years in year %}
           <option value="{{years}}" selected>{{years}}</option>
-        {% endfor %}
-          
+          {% endfor %}
+
         </select>
       </div>
       <div class="col-md-3 mx-2 my-2">
@@ -55,58 +55,84 @@
     </div>
 
   </div>
-<div class="container col-3 mx-auto mt-2">
-  {{assignmentreceive}}
-<!--{%for Assignments in solution%}
+  <div class="container col-3 mx-auto mt-2">
+    {{assignmentreceive}}
+    <!--{%for Assignments in solution%}
     <p>{{Assignments["date"]}}</p>
     <p>{{Assignments["name"]}}</p>
   {%endfor%}-->
-  <p id ="p1" class=" text-center">You have no Assignments</p>
-</div>
+    <p id="p1" class=" text-center">You have no Assignments</p>
+  </div>
   {# </div> #}
   <div class="d-flex justify-content-end align-self-end">
-   <button id="openPopup" class="btn btn-cstm-red position-sticky rounded-pill">Add Assignments</button>
+    <button id="openPopup" class="btn btn-cstm-red position-sticky rounded-pill">Add Assignments</button>
+  </div>
+  <div id="popup" class="popup">
+    <div class="popup-content">
+      <h2>Create A New Assignment</h2>
+      <form id="myForm" action="/formSub" method="post">
+        <label for="name">Name of the Assignment:</label><br>
+        <input class="mb-2" type="text" name="name" id="name" required><br>
+        <label for="se">Year: </label>
+        <input class="mb-2" type="number" id="se" name="years" is="decimal-input" min="2025" max="2027" step="1"
+          value="2025" required><br>
+        <label for="mi">Minute: </label>
+        <input class="mb-2" type="number" id="mi" name="minutes" is="decimal-input" min="0" max="60" step="1" value="0"
+          required><br>
+        <label for="ho">Hour: </label>
+        <input class="mb-2" type="number" id="ho" name="hours" is="decimal-input" min="1" max="24" step="1" value="1"
+          required><br>
+        <label for="da">Day: </label>
+        <input class="mb-2" type="number" id="da" name="days" is="decimal-input" min="1" max="30" step="1" value="1"
+          required><br>
+        <label for="mo">Month: </label>
+        <select class="mb-2" id="mo" name="months">
+          <option value="0">January</option>
+          <option value="1">February</option>
+          <option value="2">March</option>
+          <option value="3">April</option>
+          <option value="4">May</option>
+          <option value="5">June</option>
+          <option value="6">July</option>
+          <option value="7">August</option>
+          <option value="8">September</option>
+          <option value="9">October</option>
+          <option value="10">November</option>
+          <option value="11">December</option>
+        </select>
+        <br>
+        <input type="button" onclick="Popup()" value="Submit form">
+      </form>
+      <button id="closePopup"
+        style="margin-top: 10px; padding: 5px 10px; background-color: #dc3545; color: #fff; border: none; border-radius: 3px;">Close</button>
     </div>
-    <div id="popup" class="popup">
-        <div class="popup-content">
-            <h2>Create A New Assignment</h2>
-            <form id="myForm" action="/formSub" method="post">
-              Name of the Assignment:<input type="text" name="name" id="name" required><br>
-              Years:<input type="number" id="se" name="years" is="decimal-input" min="2025" max="2027" step="1" value="2025" required><br>
-              Minutes:<input type="number" id="mi" name="minutes" is="decimal-input" min="0" max="60" step="1" value="0" required><br> 
-              Hours:<input type="number" id="ho" name="hours" is="decimal-input" min="1" max="24" step="1" value="1" required><br> 
-              Days:<input type="number" id="da" name="days" is="decimal-input" min="1" max="30" step="1" value="1" required><br> 
-              Month:<input type="number" id="mo" name="months" is="decimal-input" min="1" max="12" step="1" value="1" required><br>
-              <input type="button" onclick="Popup()" value="Submit form">
-            </form> 
-            <button id="closePopup" style="margin-top: 10px; padding: 5px 10px; background-color: #dc3545; color: #fff; border: none; border-radius: 3px;">Close</button>
-        </div>
-    </div>
-    {% include "components/footer.html.jinja" %}
+  </div>
+  {% include "components/footer.html.jinja" %}
   <script src="/static/main.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
-    <script>
-        const openPopup = document.getElementById('openPopup');
-        const closePopup = document.getElementById('closePopup');
-        const popup = document.getElementById('popup');
+  <script>
+    const openPopup = document.getElementById('openPopup');
+    const closePopup = document.getElementById('closePopup');
+    const popup = document.getElementById('popup');
 
-        openPopup.addEventListener('click', () => {
-            popup.style.display = 'flex';
-            console.log('Button clicked');
-        });
+    openPopup.addEventListener('click', () => {
+      popup.style.display = 'flex';
+      console.log('Button clicked');
+    });
 
-        closePopup.addEventListener('click', () => {
-            popup.style.display = 'none';
-        });
+    closePopup.addEventListener('click', () => {
+      popup.style.display = 'none';
+    });
 
-        window.addEventListener('click', (event) => {
-            if (event.target === popup) {
-                popup.style.display = 'none';
-            }
-        });
-    </script>
+    window.addEventListener('click', (event) => {
+      if (event.target === popup) {
+        popup.style.display = 'none';
+      }
+    });
+  </script>
 
 </body>
+
 </html>
