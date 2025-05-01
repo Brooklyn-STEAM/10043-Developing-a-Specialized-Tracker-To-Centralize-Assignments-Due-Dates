@@ -238,7 +238,9 @@ def formSub():
         Minutes = request.form["minutes"]
         Hours = request.form["hours"]
         Days = request.form["days"]
-        Months = request.form["months"]
+        Month_int = request.form["months"]
+        Months = int(Month_int) + 1
+        Months = str(Months)
         Date = datetime(int(Years), int(Months), int(Days), int(Hours), int(Minutes))
         cursor.execute(f"""
                         INSERT INTO `Assignments` 
