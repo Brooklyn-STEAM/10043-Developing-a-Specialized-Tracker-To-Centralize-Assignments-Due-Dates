@@ -27,7 +27,7 @@
       <div class="col-md-3 my-2">
         <select class="form-control" id="yearDropdown">
           {% for years in year %}
-          <option value="{{years}}" selected>{{years}}</option>
+          <option value="{{years}}">{{years}}</option>
           {% endfor %}
 
         </select>
@@ -70,38 +70,85 @@
   <div id="popup" class="popup">
     <div class="popup-content">
       <h2>Create A New Assignment</h2>
+
+
       <form id="myForm" action="/formSub" method="post">
+
         <label for="name">Name of the Assignment:</label><br>
-        <input class="mb-2" type="text" name="name" id="name" required><br>
-        <label for="se">Year: </label>
-        <input class="mb-2" type="number" id="se" name="years" is="decimal-input" min="2025" max="2027" step="1"
-          value="2025" required><br>
-        <label for="mi">Minute: </label>
-        <input class="mb-2" type="number" id="mi" name="minutes" is="decimal-input" min="0" max="60" step="1" value="0"
-          required><br>
-        <label for="ho">Hour: </label>
-        <input class="mb-2" type="number" id="ho" name="hours" is="decimal-input" min="1" max="24" step="1" value="1"
-          required><br>
-        <label for="da">Day: </label>
-        <input class="mb-2" type="number" id="da" name="days" is="decimal-input" min="1" max="30" step="1" value="1"
-          required><br>
-        <label for="mo">Month: </label>
-        <select class="mb-2" id="mo" name="months">
-          <option value="0">January</option>
-          <option value="1">February</option>
-          <option value="2">March</option>
-          <option value="3">April</option>
-          <option value="4">May</option>
-          <option value="5">June</option>
-          <option value="6">July</option>
-          <option value="7">August</option>
-          <option value="8">September</option>
-          <option value="9">October</option>
-          <option value="10">November</option>
-          <option value="11">December</option>
-        </select>
-        <br>
-        <input type="button" onclick="Popup()" value="Submit form">
+        <input class="mb-2 form-control form-control-sm" type="text" name="name" id="name" required><br>
+
+        <div class="row g-3 d-flex justify-content-center">
+          <div class="col-2">
+            <label for="se">Year: </label>
+          </div>
+
+          <div class="col-3">
+            <select class=" form-control form-control-sm" id="se" name="years">
+              {% for years in year %}
+              <option value="{{years}}">{{years}}</option>
+              {% endfor %}
+            </select><br>
+          </div>
+        </div>
+
+        <div class="row g-3 d-flex justify-content-center">
+          <div class="col-2">
+            <label for="mi">Minute: </label>
+          </div>
+
+          <div class="col-3">
+            <input class=" form-control form-control-sm" type="number" id="mi" name="minutes" is="decimal-input"
+              min="0" max="59" step="1" value="0" required><br>
+          </div>
+        </div>
+        
+        <div class="row g-3 d-flex justify-content-center">
+          <div class="col-2">
+            <label for="ho">Hour: </label>
+          </div>
+        
+          <div class="col-3">
+            <input class=" form-control form-control-sm" type="number" id="ho" name="hours" is="decimal-input"
+              min="1" max="24" step="1" value="1" required><br>
+          </div>
+        </div>
+        
+        <div class="row g-3 d-flex justify-content-center">
+          <div class="col-2">
+            <label for="da">Day: </label>
+          </div>
+        
+          <div class="col-3">
+            <input class=" form-control form-control-sm" type="number" id="da" name="days" is="decimal-input"
+              min="1" max="30" step="1" value="1" required><br>
+          </div>
+        </div>
+        
+        <div class="row g-3 d-flex justify-content-center">
+          <div class="col-2">
+            <label for="mo">Month: </label>
+          </div>
+        
+          <div class="col-3">
+            <select class="mb-2 form-control form-control-sm" id="mo" name="months">
+              <option value="0">January</option>
+              <option value="1">February</option>
+              <option value="2">March</option>
+              <option value="3">April</option>
+              <option value="4">May</option>
+              <option value="5">June</option>
+              <option value="6">July</option>
+              <option value="7">August</option>
+              <option value="8">September</option>
+              <option value="9">October</option>
+              <option value="10">November</option>
+              <option value="11">December</option>
+            </select>
+            <br>
+          </div>
+        </div>
+        
+        <button class="btn btn-success" onclick="Popup()">Create Assignment</button>
       </form>
       <button id="closePopup"
         style="margin-top: 10px; padding: 5px 10px; background-color: #dc3545; color: #fff; border: none; border-radius: 3px;">Close</button>
