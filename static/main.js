@@ -244,4 +244,5 @@ const assignment = (data) => {
       return null;
     }
   };
-    
+  today =  new Date().toISOString().split('T')[0]
+  fetchTest(today);
