@@ -35,13 +35,14 @@
                 <br>
                <br>
                 <p>Click on the "Choose File" button to upload a calendar file:</p>
-               <br>
-                <div class="input-group mb-3">
-                    <form action="/fileupload" method="post" enctype="multipart/form-data">
-                    <input class="form-control" type="file" id="myFile" name="filename">
-                    <input class="btn btn-success input-group-text" type="submit">
-                    </form>
-                </div>
+               <br> 
+                <form action="/fileupload" method="post" enctype="multipart/form-data">
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control" id="myFile" name="filename" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                        <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04" type="submit">Button</button>
+                    </div>
+                </form>
+                
             </div>
         </div>
         
