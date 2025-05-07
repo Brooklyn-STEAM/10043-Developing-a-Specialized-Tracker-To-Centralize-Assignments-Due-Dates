@@ -34,15 +34,17 @@
                 <h5 class="card-title d-inline fs-4">{{current_user.username}}</h5>
                 <br>
                <br>
-               <p>Click on the "Choose File" button to upload a calendar file:</p>
-              
-               <form action="/fileupload" method="post" enctype="multipart/form-data">
-                 <input type="file" id="myFile" name="filename">
-                 <input type="submit">
-               </form>
-
+                <p>Click on the "Choose File" button to upload a calendar file:</p>
+               <br> 
+                <form action="/fileupload" method="post" enctype="multipart/form-data">
+                    <div class="input-group mb-3">
+                        <input type="file" class="form-control" id="myFile" name="filename" aria-describedby="inputGroupFileAddon04" aria-label="Upload">
+                        <button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04" type="submit">Button</button>
+                    </div>
+                </form>
             </div>
         </div>
+        
 
         <div class="card mt-3 mb-4">
             <div class="card-header card-header text-center h3">
