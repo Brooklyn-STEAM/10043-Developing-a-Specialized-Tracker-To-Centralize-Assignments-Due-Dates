@@ -184,3 +184,8 @@ testy
   .owl-carousel{
     z-index: 0;
 }
+
+.speed{
+    --animation-duration: 2s;
+    
+}
