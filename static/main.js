@@ -224,6 +224,10 @@ const assignment = (data) => {
       }
   }
   }
+
+  const timelayout = (data) => {
+    if (!data){}
+  };
   
   customElements.define('decimal-input', DecimalInput, { extends: 'input' })
   const fetchTest = async (chooseddate) => {
