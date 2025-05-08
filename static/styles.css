@@ -192,7 +192,7 @@ testy
     z-index: 0;
 }
 
-.speed{
-    --animation-duration: 2s;
-    
-}
+:root {
+    --animate-duration: 800ms;
+    --animate-delay: 0.9s;
+  }
