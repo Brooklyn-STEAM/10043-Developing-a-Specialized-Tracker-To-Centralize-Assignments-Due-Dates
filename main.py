@@ -5,6 +5,7 @@ from dynaconf import Dynaconf
 from datetime import date, datetime
 from ics import Calendar
 
+
 app = Flask(__name__)
 access = 0
 
