@@ -101,6 +101,11 @@ const months = [
               .find(".day-card")
               .removeClass("border-success selectedcard");
             const clickedDate = $(this).data("date");
+
+            // const day = clickedDate.split('-')
+            // console.log('Day test: ', day)
+            // window.location.hash = day[2];
+            
             console.log("Clicked on", clickedDate);
             chooseddate = clickedDate;
             fetchTest(chooseddate)
@@ -198,13 +203,17 @@ const months = [
     }
   }
 const assignment = (data) => {
-  if (!data){
+  if (data.length === 0){
     console.log('No data')
+    const list = document.getElementById("p1");
+    list.innerHTML = 'No data'
     return null;
   }
   else{
+    //const date = data.split('-')
+    //window.location.hash = day[0];
     var container = document.getElementById("p1")
-
+    
     container.innerHTML = ''
     //add innerHTML
     console.log(data)
@@ -218,12 +227,16 @@ const assignment = (data) => {
       child.className = 'card edge mb-3'
 
       child.innerHTML = `
-          ${datas.name} Due at ${datas.date}<br>
+          ${datas.name} Due at ${datas.date.split(' ')[0,4]}<br>
         `;
       container.appendChild(child)
       }
   }
   }
+
+  const timelayout = (data) => {
+    if (!data){}
+  };
   
   customElements.define('decimal-input', DecimalInput, { extends: 'input' })
   const fetchTest = async (chooseddate) => {
@@ -245,4 +258,5 @@ const assignment = (data) => {
     }
   };
   today =  new Date().toISOString().split('T')[0]
+  console.log('Today toString data: ',today)
   fetchTest(today);
