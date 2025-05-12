@@ -157,6 +157,13 @@ def accounts():
         return redirect("/cta")
     
 
+@app.route("/<assignment_id>/upd")
+def assignupd():
+    user_id = flask_login.current_user.id
+    conn = connectdb()
+    cursor = conn.cursor()
+    if 
+    cursor.execute("")
 
 
 
