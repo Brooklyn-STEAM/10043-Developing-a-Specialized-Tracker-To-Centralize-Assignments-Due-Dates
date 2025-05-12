@@ -80,7 +80,7 @@ const months = [
         .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
       
 
-        const dayCard = $(`<div data-hash="${day}" id="${day}">`)
+        const dayCard = $(`<div data-hash="${day}">`)
           .addClass("day-card card rounded btn-cstm-red")
           .html(
             "<p class='fw-bold'>" +
@@ -101,9 +101,11 @@ const months = [
               .find(".day-card")
               .removeClass("border-success selectedcard");
             const clickedDate = $(this).data("date");
-            const day = clickedDate.split('-')
-            console.log('Day test: ', day)
-            window.location.hash = day[2];
+
+            // const day = clickedDate.split('-')
+            // console.log('Day test: ', day)
+            // window.location.hash = day[2];
+            
             console.log("Clicked on", clickedDate);
             chooseddate = clickedDate;
             fetchTest(chooseddate)
@@ -231,6 +233,10 @@ const assignment = (data) => {
       }
   }
   }
+
+  const timelayout = (data) => {
+    if (!data){}
+  };
   
   customElements.define('decimal-input', DecimalInput, { extends: 'input' })
   const fetchTest = async (chooseddate) => {
