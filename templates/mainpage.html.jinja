@@ -69,7 +69,17 @@
   </div>
   {# </div> #}
 
-  
+{# Here is the code for the functioning checkbox system #}
+
+  {# <form action="/assignment['id']/upd" method="post"> #}
+  <form action="/tester" method="post">
+  {# next 2 lines are for testing only thing nescessary are type checkbox and value checked #}
+  <input type="checkbox" id="vehicle1" name="vehicle1" value="checked">
+  <label for="vehicle1"> I have a bike</label><br>
+  <input type="submit" value="Submit">
+</form>
+{# Code ends here #}
+
 
   <div class="d-flex justify-content-end align-self-end">
     <button id="openPopup" class="btn btn-cstm-red position-sticky rounded-pill">Add Assignments</button>
