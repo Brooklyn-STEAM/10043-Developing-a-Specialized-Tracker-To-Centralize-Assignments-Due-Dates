@@ -163,14 +163,15 @@ def assignupd():
     user_id = flask_login.current_user.id
     conn = connectdb()
     cursor = conn.cursor()
-    # change the "vehicle1" to the id of the assignment
+    # Retrieve the assignment ID and the "vehicle1" checkbox value from the form
+    assignment_id = request.form["assignment_id"]
     checked = request.form["vehicle1"]
     if checked == "checked":
         print("checked")
-        cursor.execute(f"UPDATE Assignment SET completed = 1 WHERE id = '%{assignment_id}%';")
+        cursor.execute("UPDATE Assignment SET completed = 1 WHERE id = %s;", (assignment_id,))
     else:
         print("not checked")
-        cursor.execute(f"UPDATE Assignment SET completed = 0 WHERE id = '%{assignment_id}%';")
+        cursor.execute("UPDATE Assignment SET completed = 0 WHERE id = %s;", (assignment_id,))
     cursor.close()
     conn.close()
     return redirect("/")
