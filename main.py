@@ -157,13 +157,24 @@ def accounts():
         return redirect("/cta")
     
 
-@app.route("/<assignment_id>/upd")
+# @app.route("/<assignment_id>/upd", methods = ["POST"])
+@app.route("/tester", methods = ["POST"])
 def assignupd():
     user_id = flask_login.current_user.id
     conn = connectdb()
     cursor = conn.cursor()
-    if 
-    cursor.execute("")
+    # change the "vehicle1" to the id of the assignment
+    checked = request.form["vehicle1"]
+    if checked == "checked":
+        print("checked")
+        cursor.execute(f"UPDATE Assignment SET completed = 1 WHERE id = '%{assignment_id}%';")
+    else:
+        print("not checked")
+        cursor.execute(f"UPDATE Assignment SET completed = 0 WHERE id = '%{assignment_id}%';")
+    cursor.close()
+    conn.close()
+    return redirect("/")
+    
 
 
 
@@ -185,9 +196,13 @@ def updusername():
     confirm_password = request.form["confirm_password"]
     if password == confirm_password:
         cursor.execute("UPDATE User SET password = %s, access = 0 WHERE id = %s;",(password, user_id))
+        cursor.close()
+        conn.close()
         return redirect("/logout")
     else:
         flash("The passwords don't match")
+        cursor.close()
+        conn.close()
         return redirect ("/acc")
 
 @app.route('/dateSub/<info>')
