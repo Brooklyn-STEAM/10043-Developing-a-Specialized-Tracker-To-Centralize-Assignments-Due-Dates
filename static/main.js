@@ -101,9 +101,9 @@ const months = [
               .find(".day-card")
               .removeClass("border-success selectedcard");
             const clickedDate = $(this).data("date");
-            const day = clickedDate.split('-')
+            //const day = clickedDate.split('-')
             console.log('Day test: ', day)
-            window.location.hash = day[2];
+            window.location.hash = day;
             console.log("Clicked on", clickedDate);
             chooseddate = clickedDate;
             fetchTest(chooseddate)
