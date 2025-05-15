@@ -113,8 +113,7 @@ def sup():
                     INSERT INTO `User`
                         (`first_name`, `last_name`, `username`, `password`, `email`,`access`)
                     VALUE
-                        ('{first_name}', '{last_name}',
-                         '{username}', '{password}', '{email}',{access});
+                        ('{first_name}', '{last_name}', '{username}', '{password}', '{email}',{access});
                     """)
                 except pymysql.err.IntegrityError:
                     flash("Username/Email is already in use")
@@ -242,11 +241,12 @@ def formSub():
         Months = int(Month_int) + 1
         Months = str(Months)
         Date = datetime(int(Years), int(Months), int(Days), int(Hours), int(Minutes))
+        Description = request.form["description"]
         cursor.execute(f"""
                         INSERT INTO `Assignments` 
-                            (`date`, `name`, `user_id`)
+                            (`date`, `name`, `user_id`, `description`)
                         VALUE
-                            ('{Date.isoformat()}', '{Name}', {User_id});
+                            ('{Date.isoformat()}', '{Name}', {User_id}, '{Description}');
                         """)
         result = cursor.fetchall()
         cursor.close()

@@ -208,17 +208,20 @@ const assignment = (data) => {
     container.innerHTML = ''
     //add innerHTML
     console.log(data)
-      console.log('Here ' + data.date)
+      console.log('Here ' + data.date )
       for(let datas of data){
         // where card beginning should be
         
+        if (datas.description == null){
+          datas.description = ''
+        }
   
       var child = document.createElement('div')
 
       child.className = 'card edge mb-3'
 
       child.innerHTML = `
-          ${datas.name} Due at ${datas.date}<br>
+          ${datas.name} Due at ${datas.date} ${datas.description}<br>
         `;
       container.appendChild(child)
       }
