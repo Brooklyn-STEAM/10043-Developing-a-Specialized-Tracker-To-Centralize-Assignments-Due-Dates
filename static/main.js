@@ -224,16 +224,31 @@ const assignment = (data) => {
   
       var child = document.createElement('div')
 
-      child.className = 'card edge mb-3'
 
+
+      child.className = 'card edge mb-3'
+      console.log(datas)
       child.innerHTML = `
           ${datas.name} Due at ${datas.date.split(' ')[0,4]}<br>
+          <p class="card-text">${datas.description}</p>
+          <p class="card-text">Time: ${datas.date}</p><br>
+          <input type="button" class="btn btn-danger" id="${datas.id}" value="Remove" onclick="removeItem('${datas.id}')">
+          
         `;
       container.appendChild(child)
       }
   }
   }
 
+
+  const removeItem = async (itemId) => {
+    const itemToRemove = document.getElementById(itemId);
+    console.log('removeItem function called: ',itemId)
+    const response = await fetch(`/acc/delete_assignment/${itemId}`, {
+      method: 'POST'
+    })
+
+}
   const timelayout = (data) => {
     if (!data){}
   };
