@@ -101,6 +101,11 @@ const months = [
               .find(".day-card")
               .removeClass("border-success selectedcard");
             const clickedDate = $(this).data("date");
+
+            // const day = clickedDate.split('-')
+            // console.log('Day test: ', day)
+            // window.location.hash = day[2];
+            
             console.log("Clicked on", clickedDate);
             chooseddate = clickedDate;
             fetchTest(chooseddate)
@@ -198,13 +203,17 @@ const months = [
     }
   }
 const assignment = (data) => {
-  if (!data){
+  if (data.length === 0){
     console.log('No data')
+    const list = document.getElementById("p1");
+    list.innerHTML = 'No data'
     return null;
   }
   else{
+    //const date = data.split('-')
+    //window.location.hash = day[0];
     var container = document.getElementById("p1")
-
+    
     container.innerHTML = ''
     //add innerHTML
     console.log(data)
@@ -218,15 +227,34 @@ const assignment = (data) => {
   
       var child = document.createElement('div')
 
-      child.className = 'card edge mb-3'
 
+
+      child.className = 'card edge mb-3'
+      console.log(datas)
       child.innerHTML = `
-          ${datas.name} Due at ${datas.date} ${datas.description}<br>
+          ${datas.name} Due at ${datas.date.split(' ')[0,4]} ${datas.description}<br>
+          <p class="card-text">${datas.description}</p>
+          <p class="card-text">Time: ${datas.date}</p><br>
+          <input type="button" class="btn btn-danger" id="${datas.id}" value="Remove" onclick="removeItem('${datas.id}')">
+          
         `;
       container.appendChild(child)
       }
   }
   }
+
+
+  const removeItem = async (itemId) => {
+    const itemToRemove = document.getElementById(itemId);
+    console.log('removeItem function called: ',itemId)
+    const response = await fetch(`/acc/delete_assignment/${itemId}`, {
+      method: 'POST'
+    })
+
+}
+  const timelayout = (data) => {
+    if (!data){}
+  };
   
   customElements.define('decimal-input', DecimalInput, { extends: 'input' })
   const fetchTest = async (chooseddate) => {
@@ -248,4 +276,5 @@ const assignment = (data) => {
     }
   };
   today =  new Date().toISOString().split('T')[0]
+  console.log('Today toString data: ',today)
   fetchTest(today);
