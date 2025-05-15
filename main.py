@@ -218,6 +218,7 @@ def info(info):
     conn.close()
     print(result)
     return jsonify(result)
+
     
         
     
@@ -298,3 +299,31 @@ def upload_file():
             cursor.close()
 
     return redirect ("/")
+
+
+
+@app.route("/acc/delete_assignment/<itemId>", methods=["POST"])
+@flask_login.login_required
+def delete_assignment(itemId):
+    conn = connectdb()
+    cursor = conn.cursor()
+
+    # assignment_id = request.form["assignment_id"]
+    assignment_id = itemId
+
+    cursor.execute(f"DELETE FROM `Assignments` WHERE `id` = {assignment_id}; ")
+
+    cursor.close()
+    conn.close()
+
+    return redirect("/")
+
+
+
+
+
+
+
+
+
+
