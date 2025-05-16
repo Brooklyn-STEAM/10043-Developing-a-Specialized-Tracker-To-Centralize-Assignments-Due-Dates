@@ -114,8 +114,7 @@ def sup():
                     INSERT INTO `User`
                         (`first_name`, `last_name`, `username`, `password`, `email`,`access`)
                     VALUE
-                        ('{first_name}', '{last_name}',
-                         '{username}', '{password}', '{email}',{access});
+                        ('{first_name}', '{last_name}', '{username}', '{password}', '{email}',{access});
                     """)
                 except pymysql.err.IntegrityError:
                     flash("Username/Email is already in use")
@@ -157,6 +156,25 @@ def accounts():
         return redirect("/cta")
     
 
+# @app.route("/<assignment_id>/upd", methods = ["POST"])
+@app.route("/tester", methods = ["POST"])
+def assignupd():
+    user_id = flask_login.current_user.id
+    conn = connectdb()
+    cursor = conn.cursor()
+    # Retrieve the assignment ID and the "vehicle1" checkbox value from the form
+    assignment_id = request.form["assignment_id"]
+    checked = request.form["vehicle1"]
+    if checked == "checked":
+        print("checked")
+        cursor.execute("UPDATE Assignment SET completed = 1 WHERE id = %s;", (assignment_id,))
+    else:
+        print("not checked")
+        cursor.execute("UPDATE Assignment SET completed = 0 WHERE id = %s;", (assignment_id,))
+    cursor.close()
+    conn.close()
+    return redirect("/")
+    
 
 
 
@@ -178,9 +196,13 @@ def updusername():
     confirm_password = request.form["confirm_password"]
     if password == confirm_password:
         cursor.execute("UPDATE User SET password = %s, access = 0 WHERE id = %s;",(password, user_id))
+        cursor.close()
+        conn.close()
         return redirect("/logout")
     else:
         flash("The passwords don't match")
+        cursor.close()
+        conn.close()
         return redirect ("/acc")
 
 @app.route('/dateSub/<info>')
@@ -195,6 +217,7 @@ def info(info):
     conn.close()
     print(result)
     return jsonify(result)
+
     
         
     
@@ -214,11 +237,12 @@ def formSub():
         Months = int(Month_int) + 1
         Months = str(Months)
         Date = datetime(int(Years), int(Months), int(Days), int(Hours), int(Minutes))
+        Description = request.form["description"]
         cursor.execute(f"""
                         INSERT INTO `Assignments` 
-                            (`date`, `name`, `user_id`)
+                            (`date`, `name`, `user_id`, `description`)
                         VALUE
-                            ('{Date.isoformat()}', '{Name}', {User_id});
+                            ('{Date.isoformat()}', '{Name}', {User_id}, '{Description}');
                         """)
         result = cursor.fetchall()
         cursor.close()
@@ -275,3 +299,31 @@ def upload_file():
             cursor.close()
 
     return redirect ("/")
+
+
+
+@app.route("/acc/delete_assignment/<itemId>", methods=["POST"])
+@flask_login.login_required
+def delete_assignment(itemId):
+    conn = connectdb()
+    cursor = conn.cursor()
+
+    # assignment_id = request.form["assignment_id"]
+    assignment_id = itemId
+
+    cursor.execute(f"DELETE FROM `Assignments` WHERE `id` = {assignment_id}; ")
+
+    cursor.close()
+    conn.close()
+
+    return redirect("/")
+
+
+
+
+
+
+
+
+
+

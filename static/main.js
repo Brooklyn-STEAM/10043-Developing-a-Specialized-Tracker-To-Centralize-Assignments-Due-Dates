@@ -80,7 +80,7 @@ const months = [
         .padStart(2, "0")}-${day.toString().padStart(2, "0")}`;
       
 
-        const dayCard = $(`<div data-hash="${day}" id="${day}">`)
+        const dayCard = $(`<div data-hash="${day}">`)
           .addClass("day-card card rounded btn-cstm-red")
           .html(
             "<p class='fw-bold'>" +
@@ -103,7 +103,7 @@ const months = [
             const clickedDate = $(this).data("date");
             //const day = clickedDate.split('-')
             console.log('Day test: ', day)
-            window.location.hash = day;
+            window.location.hash = day[2];
             console.log("Clicked on", clickedDate);
             chooseddate = clickedDate;
             fetchTest(chooseddate)
@@ -215,22 +215,44 @@ const assignment = (data) => {
     container.innerHTML = ''
     //add innerHTML
     console.log(data)
-      console.log('Here ' + data.date)
+      console.log('Here ' + data.date )
       for(let datas of data){
         // where card beginning should be
         
+        if (datas.description == null){
+          datas.description = ''
+        }
   
       var child = document.createElement('div')
 
-      child.className = 'card edge mb-3'
 
+
+      child.className = 'card edge mb-3'
+      console.log(datas)
       child.innerHTML = `
-          ${datas.name} Due at ${datas.date.split(' ')[0,4]}<br>
+          ${datas.name} Due at ${datas.date.split(' ')[0,4]} ${datas.description}<br>
+          <p class="card-text">${datas.description}</p>
+          <p class="card-text">Time: ${datas.date}</p><br>
+          <input type="button" class="btn btn-danger" id="${datas.id}" value="Remove" onclick="removeItem('${datas.id}')">
+          
         `;
       container.appendChild(child)
       }
   }
   }
+
+
+  const removeItem = async (itemId) => {
+    const itemToRemove = document.getElementById(itemId);
+    console.log('removeItem function called: ',itemId)
+    const response = await fetch(`/acc/delete_assignment/${itemId}`, {
+      method: 'POST'
+    })
+
+}
+  const timelayout = (data) => {
+    if (!data){}
+  };
   
   customElements.define('decimal-input', DecimalInput, { extends: 'input' })
   const fetchTest = async (chooseddate) => {
