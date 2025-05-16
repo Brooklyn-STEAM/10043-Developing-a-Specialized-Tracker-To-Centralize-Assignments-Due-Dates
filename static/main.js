@@ -103,8 +103,8 @@ const months = [
             const clickedDate = $(this).data("date");
 
             // const day = clickedDate.split('-')
-            // console.log('Day test: ', day)
-            // window.location.hash = day[2];
+             console.log('Day test: ', day)
+             window.location.hash = day;
             
             console.log("Clicked on", clickedDate);
             chooseddate = clickedDate;
