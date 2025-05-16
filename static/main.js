@@ -232,9 +232,7 @@ const assignment = (data) => {
       child.className = 'card edge mb-3'
       console.log(datas)
       child.innerHTML = `
-          ${datas.name} Due at ${datas.date.split(' ')[0,4]} ${datas.description}<br>
-          <p class="card-text">${datas.description}</p>
-          <p class="card-text">Time: ${datas.date}</p><br>
+          ${datas.name} <br> Due at  ${datas.date.split(' ')[0,4]} <br> ${datas.description}<br>
           <input type="button" class="btn btn-danger" id="${datas.id}" value="Remove" onclick="removeItem('${datas.id}')">
           
         `;
@@ -276,5 +274,14 @@ const assignment = (data) => {
     }
   };
   today =  new Date().toISOString().split('T')[0]
+  timed = new Date().toISOString().split('T')
+  year = today.split('-')[0]
+  month = today.split('-')[1]
+  day = today.split('-')[2]
   console.log('Today toString data: ',today)
+  console.log('This is the year', year)
+  console.log('This is the month', month)
+  console.log('This is the day', day)
+  console.log('This is the time', timed)
+  console.log()
   fetchTest(today);
