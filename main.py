@@ -158,7 +158,7 @@ def accounts():
     
 
 # @app.route("/<assignment_id>/upd", methods = ["POST"])
-@app.route("/tester", methods = ["POST"])
+@app.route("/<assignment_id>/upd", methods = ["POST"])
 def assignupd():
     user_id = flask_login.current_user.id
     conn = connectdb()

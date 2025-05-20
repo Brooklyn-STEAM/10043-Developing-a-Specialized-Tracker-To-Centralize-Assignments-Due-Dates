@@ -231,15 +231,39 @@ const assignment = (data) => {
       child.innerHTML = `
           ${datas.name} Due at ${datas.date.split(' ')[0,4]}<br>
           <p class="card-text">${datas.description}</p>
-          <p class="card-text">Time: ${datas.date}</p><br>
+          <p class="card-text">Time: ${datas.date}</p>
+          <input type="button" class="btn btn-success" id="${datas.id}" value="Complete" onclick="updateItem('${datas.id}')">
           <input type="button" class="btn btn-danger" id="${datas.id}" value="Remove" onclick="removeItem('${datas.id}')">
-          
         `;
       container.appendChild(child)
       }
   }
   }
 
+
+ const updateItem = async (itemId) => {
+    const itemToUpdate = document.getElementById(itemId);
+    console.log('updateItem function called: ',itemId)
+    const response = await fetch(`/acc/update_assignment/${itemId}`, {
+      method: 'POST'
+    })
+    if (response.ok) {
+      const data = await response.json();
+      console.log('Item updated successfully:', data);
+      // Optionally, you can remove the item from the DOM or update its status
+      const itemToRemove = document.getElementById(itemId);
+      if (itemToRemove) {
+        itemToRemove.remove();
+      }
+    }
+    else {
+      console.error('Error updating item:', response.statusText);
+    }
+  }
+
+
+
+  
 
   const removeItem = async (itemId) => {
     const itemToRemove = document.getElementById(itemId);

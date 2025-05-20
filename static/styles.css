@@ -124,6 +124,10 @@ testy
       "content"
       "footer";
   }
+
+.assignfinshed{
+    background-color: #5fde61;
+}
   
 .navbar { grid-area: navbar; }
   
