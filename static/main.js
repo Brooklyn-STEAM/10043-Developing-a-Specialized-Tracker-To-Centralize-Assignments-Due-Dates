@@ -217,10 +217,13 @@ const assignment = (data) => {
     container.innerHTML = ''
     //add innerHTML
     console.log(data)
-      console.log('Here ' + data.date)
+      console.log('Here ' + data.date )
       for(let datas of data){
         // where card beginning should be
         
+        if (datas.description == null){
+          datas.description = ''
+        }
   
       var child = document.createElement('div')
 
@@ -229,7 +232,7 @@ const assignment = (data) => {
       child.className = 'card edge mb-3'
       console.log(datas)
       child.innerHTML = `
-          ${datas.name} Due at ${datas.date.split(' ')[0,4]}<br>
+          ${datas.name} Due at ${datas.date.split(' ')[0,4]} ${datas.description}<br>
           <p class="card-text">${datas.description}</p>
           <p class="card-text">Time: ${datas.date}</p>
           <input type="button" class="btn btn-success" id="${datas.id}" value="Complete" onclick="updateItem('${datas.id}')">
