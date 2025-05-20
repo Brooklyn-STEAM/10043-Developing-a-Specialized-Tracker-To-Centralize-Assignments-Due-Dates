@@ -204,9 +204,9 @@ const months = [
   }
 const assignment = (data) => {
   if (data.length === 0){
-    console.log('No data')
+    console.log('You have no Assignments')
     const list = document.getElementById("p1");
-    list.innerHTML = 'No data'
+    list.innerHTML = 'You have no Assignments'
     return null;
   }
   else{
@@ -232,7 +232,7 @@ const assignment = (data) => {
       child.className = 'card edge mb-3'
       console.log(datas)
       child.innerHTML = `
-          ${datas.name} <br> Due at  ${datas.date.split(' ')[0,4]} <br> ${datas.description}<br>
+          ${datas.name} <br> Due at  ${datas.date.split(' ')[0,4]} <br>${datas.description}<br>
           <input type="button" class="btn btn-danger" id="${datas.id}" value="Remove" onclick="removeItem('${datas.id}')">
           
         `;
@@ -273,15 +273,63 @@ const assignment = (data) => {
       return null;
     }
   };
-  today =  new Date().toISOString().split('T')[0]
-  timed = new Date().toISOString().split('T')
-  year = today.split('-')[0]
-  month = today.split('-')[1]
-  day = today.split('-')[2]
-  console.log('Today toString data: ',today)
-  console.log('This is the year', year)
-  console.log('This is the month', month)
-  console.log('This is the day', day)
-  console.log('This is the time', timed)
-  console.log()
-  fetchTest(today);
+  // const today =  new Date().toLocaleTimeString.toISOString().split('T')
+  // const options = {
+  //   year: 'numeric',
+  //   month: 'long',
+  //   day: 'numeric',
+  //   weekday: 'long',
+  // };
+
+    timedif =  new Date().getTimezoneOffset()
+    today = new Date().toISOString().split('T')[0]
+    timed = new Date().toISOString().split('T')[1]
+    year = today.split('-')[0]
+    month = today.split('-')[1]
+    day = today.split('-')[2]
+    hour = timed.split(':')[0]
+    // console.log('Today toString data: ',today)
+    // console.log('This is the year', year)
+    // console.log('This is the month', month)
+    // console.log('This is the day', day)
+    // console.log('This is the time', timed)
+    // console.log('This is the hour', hour)
+    
+    // console.log("This is today's time", today)
+    // console.log('This is the time difference of utc and the time zone', timedif)
+    let dayshow = 0
+
+  
+  if (timedif < 0){
+    console.log('negitve ', timedif)
+  }
+  else if (timedif > 0){
+    // console.log('postive ', timedif)
+    let timedifdiv = timedif / 60
+    // console.log("This is today's hour dif", timedifdiv)
+    let timedifdivsub = 1 - timedifdiv 
+    // console.log("This is today's hour", hour)
+    console.log("This is today's hour difference sub", timedifdivsub)
+      if (timedifdivsub < 0){
+        let daysub = day - 1
+        let hoursub = 24 + timedifdivsub
+        console.log('If ran')
+        console.log('Daysub: ',daysub)
+        console.log('Hoursub: ',hoursub)
+        dayshow = daysub
+        const list = document.getElementById("day");
+        list.innerHTML = dayshow
+      }
+      else{
+
+      }
+      
+      console.log("this is dayshow", dayshow)
+        const list = document.getElementById("day");
+        list.innerHTML = 'You have no Assignments'
+       
+    }
+  else{
+    console.log('is 0 ', timedif)
+  }
+fetchTest(today);
