@@ -239,9 +239,9 @@ const assignment = (data) => {
 
           <div class="container">
             <form id="commentForm">
-              <textarea id="commentBox" placeholder="Add Your Comment" value=" "></textarea><br>
+              <textarea id="commentBox" name="comment" placeholder="Add Your Comment" value=" "></textarea><br>
               <div class="btn">
-                <input id="submit" class="text-center" type="submit" value="Comment">
+                <input id="cmntsubmit" class="text-center" type="submit" value="Comment">
               </div> 
             </form>
           </div>
@@ -255,6 +255,9 @@ const assignment = (data) => {
           
         `;
       container.appendChild(child)
+      const textValues = document.getElementById("commentBox").value
+      document.getElementById("cmntsubmit").addEventListener("click", submitHandler(textValues))
+
 
       // document.getElementById("commentBox").addEventListener("keypress", e => {
       //   if (e.key === "Enter" && !e.shiftKey) {
@@ -269,7 +272,13 @@ const assignment = (data) => {
   }
 }
 
-
+const submitHandler = async (values) => {
+  const data = await fetch('/comment',{
+    method: 'POST',
+    body: values
+  })
+  console.log(values)
+};
 
 const removeItem = async (itemId) => {
   const itemToRemove = document.getElementById(itemId);
@@ -285,22 +294,23 @@ const timelayout = (data) => {
 
 customElements.define('decimal-input', DecimalInput, { extends: 'input' })
 const fetchTest = async (chooseddate) => {
-  try {
+  // try {
     const response = await fetch(`/dateSub/${chooseddate}`);
     const data = await response.json();
     assignment(data)
-    console.log("Fetched data: ", data); // Debugging to check structure
+    console.log('This is the fetched data: ', data)
+  //   console.log("Fetched data: ", data); // Debugging to check structure
 
-    if (!Array.isArray(data)) {
-      console.log('Found data!')
-      return;
-    }
+  //   if (!Array.isArray(data)) {
+  //     console.log('Found data!')
+  //     return;
+  //   }
 
-    return data; // Return fetched data
-  } catch (error) {
-    console.error("Error fetching tickets:", error);
-    return null;
-  }
+  //   return data; // Return fetched data
+  // } catch (error) {
+  //   console.error("Error fetching tickets:", error);
+  //   return null;
+  // }
 };
 today = new Date().toISOString().split('T')[0]
 console.log('Today toString data: ', today)
@@ -312,8 +322,8 @@ fetchTest(today);
 const field = document.querySelector('textarea');
 const backUp = field.getAttribute('placeholder')
 const btn = document.querySelector('.btn');
-const clear = document.getElementById('clear')
-const submit = document.querySelector('#submit')
+// const clear = document.getElementById('clear')
+// const submit = document.querySelector('#submit')
 // const comments = document.querySelector('#comment-box')
 const comments = document.getElementById('comment-box');
 
@@ -330,23 +340,23 @@ const display_comments = () => {
   comments.innerHTML = list;
 }
 
-clear.onclick = function (event) {
-  event.preventDefault();
-  // reset the array  
-  comments_arr.length = 0;
-  // re-genrate the comment html list
-  display_comments();
-}
+// clear.onclick = function (event) {
+//   event.preventDefault();
+//   // reset the array  
+//   comments_arr.length = 0;
+//   // re-genrate the comment html list
+//   display_comments();
+// }
 
-submit.onclick = function (event) {
-  event.preventDefault();
-  const content = field.value;
-  if (content.length > 0) { // if there is content
-    // add the comment to the array
-    comments_arr.push(content);
-    // re-genrate the comment html list
-    display_comments();
-    // reset the textArea content 
-    field.value = '';
-  }
-}
+// submit.onclick = function (event) {
+//   event.preventDefault();
+//   const content = field.value;
+//   if (content.length > 0) { // if there is content
+//     // add the comment to the array
+//     comments_arr.push(content);
+//     // re-genrate the comment html list
+//     display_comments();
+//     // reset the textArea content 
+//     field.value = '';
+//   }
+// }

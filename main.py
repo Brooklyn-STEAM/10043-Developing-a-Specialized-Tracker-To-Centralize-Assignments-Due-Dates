@@ -319,6 +319,16 @@ def delete_assignment(itemId):
     return redirect("/")
 
 
+@app.route("/comment", methods = "POST")
+@flask_login.login_required
+def create_comment():
+    print()
+    comment = request.form["comment"]
+    conn = connectdb()
+    cursor = conn.cursor()
+    cursor.execute(f"UPDATE Assignments SET comment = {comment}")
+    cursor.close()
+    conn.close()
 
 
 
