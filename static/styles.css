@@ -124,6 +124,10 @@ testy
       "content"
       "footer";
   }
+
+.assignfinshed{
+    background-color: #5fde61;
+}
   
 .navbar { grid-area: navbar; }
   
@@ -196,3 +200,7 @@ testy
     --animate-duration: 800ms;
     --animate-delay: 0.9s;
   }
+
+.completed {
+    background-color: #4BB543;
+}
