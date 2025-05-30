@@ -202,6 +202,7 @@ const months = [
       })
     }
   }
+  let child = document.createElement('div')
 const assignment = (data) => {
   if (data.length === 0){
     console.log('No data')
@@ -224,19 +225,28 @@ const assignment = (data) => {
         if (datas.description == null){
           datas.description = ''
         }
-  
-      var child = document.createElement('div')
+        
+        child.className = 'card edge mb-3'
+        if (datas.completed) {
+          child.classList.add('completed');
+          child.classList.remove('edge');
+        } else {
+          child.classList.remove('completed');
+          child.classList.add('edge');
+        }
+        
 
 
 
-      child.className = 'card edge mb-3'
+      
       console.log(datas)
       child.innerHTML = `
           ${datas.name} Due at ${datas.date.split(' ')[0,4]} ${datas.description}<br>
           <p class="card-text">${datas.description}</p>
           <p class="card-text">Time: ${datas.date}</p>
-          <input type="button" class="btn btn-success" id="${datas.id}" value="Complete" onclick="updateHandler('${datas.id}')">
+          <input type="button" class="btn btn-success" id="${datas.id}" value="Complete/Incomplete" onclick="updateHandler('${datas.id}')">
           <input type="button" class="btn btn-danger" id="${datas.id}" value="Remove" onclick="removeItem('${datas.id}')">
+            
         `;
       container.appendChild(child)
       }
@@ -247,6 +257,16 @@ const assignment = (data) => {
 const updateHandler = async (item_id) => {
   console.log("Update Handler called")
   const data = await fetch(`${item_id}/upd`)
+  console.log(data)
+  if (child.classList.contains('completed')) {
+  child.classList.remove('completed')
+  child.classList.add('edge')
+  } else {
+
+  child.classList.remove('edge')
+  child.classList.add('completed')
+  }
+
 }
 
 
@@ -273,6 +293,9 @@ const updateHandler = async (item_id) => {
       const response = await fetch(`/dateSub/${chooseddate}`); 
       const data = await response.json();
       assignment(data)
+
+
+
       console.log("Fetched data: ", data); // Debugging to check structure
   
       if (!Array.isArray(data)) {

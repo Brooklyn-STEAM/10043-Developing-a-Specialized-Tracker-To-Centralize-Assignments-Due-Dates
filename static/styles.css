@@ -200,3 +200,7 @@ testy
     --animate-duration: 800ms;
     --animate-delay: 0.9s;
   }
+
+.completed {
+    background-color: #4BB543;
+}

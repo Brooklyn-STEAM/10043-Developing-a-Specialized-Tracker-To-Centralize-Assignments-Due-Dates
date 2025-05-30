@@ -162,7 +162,12 @@ def assignupd(assignment_id):
     user_id = flask_login.current_user.id
     conn = connectdb()
     cursor = conn.cursor()
-    cursor.execute("UPDATE Assignments SET completed = 1 WHERE id = %s;", (assignment_id))
+    cursor.execute(f"""SELECT `completed` FROM Assignments WHERE id = {assignment_id} AND user_id = {user_id};""")
+    result = cursor.fetchone()
+    if result is 0:
+        cursor.execute("UPDATE Assignments SET completed = 1 WHERE id = %s;", (assignment_id))
+    else:
+        cursor.execute("UPDATE Assignments SET completed = 0 WHERE id = %s;", (assignment_id))
     cursor.close()
     conn.close()
     return redirect("/")
@@ -229,7 +234,9 @@ def formSub():
         Months = int(Month_int) + 1
         Months = str(Months)
         Date = datetime(int(Years), int(Months), int(Days), int(Hours), int(Minutes))
-        Description = request.form["description"]
+        Description = request.form["desc"]
+        if not Description:
+            Description = None
         cursor.execute(f"""
                         INSERT INTO `Assignments` 
                             (`date`, `name`, `user_id`, `description`)
