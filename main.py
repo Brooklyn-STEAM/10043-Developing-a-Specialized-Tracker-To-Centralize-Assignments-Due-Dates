@@ -274,6 +274,7 @@ def delete_account():
 @app.route("/fileupload", methods=['POST'])
 @flask_login.login_required
 def upload_file():
+    completed = 0
     User_id = flask_login.current_user.id
     file = request.files['filename']
     string = file.stream.read().decode()
@@ -287,9 +288,9 @@ def upload_file():
             cursor = conn.cursor()
             cursor.execute(f"""
                 INSERT INTO `Assignments`
-                    (`name`, `date`, `user_id`, `importid`)
+                    (`name`, `date`, `user_id`, `importid`, `completed`)
                 VALUE
-                    ('{name}', '{Date}', {User_id}, '{importid}')
+                    ('{name}', '{Date}', {User_id}, '{importid}', '{completed}')
                 ON DUPLICATE KEY UPDATE
                     `name` = '{name}',
                     `date` = '{Date}';

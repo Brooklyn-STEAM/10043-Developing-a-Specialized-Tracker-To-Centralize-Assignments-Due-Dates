@@ -241,7 +241,7 @@ const assignment = (data) => {
       
       console.log(datas)
       child.innerHTML = `
-          ${datas.name} Due at ${datas.date.split(' ')[0,4]} ${datas.description}<br>
+          ${datas.name} Due at ${datas.date.split(' ')[0,4]}<br>
           <p class="card-text">${datas.description}</p>
           <p class="card-text">Time: ${datas.date}</p>
           <input type="button" class="btn btn-success" id="${datas.id}" value="Complete/Incomplete" onclick="updateHandler('${datas.id}')">
